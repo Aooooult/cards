@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz - All Categories</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #2e7d32;
+            --error-color: #c62828;
+            --success-color: #2e7d32;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        h1 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            max-width: 800px;
+        }
+        .tab-btn {
+            background-color: #fff;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 10px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        .quiz-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .progress-container {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .progress-text {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .progress-bar-bg {
+            background-color: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .card-display {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .lang-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #95a5a6;
+            margin-bottom: 10px;
+        }
+        .word-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .answer-input:focus {
+            border-color: var(--accent-color);
+        }
+        .action-btn {
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+        .feedback {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-height: 50px;
+        }
+        .feedback.success { color: var(--success-color); }
+        .feedback.error { color: var(--error-color); }
+        
+        .correct-answer {
+            font-size: 0.95rem;
+            font-weight: normal;
+            color: #555;
+            margin-top: 5px;
+        }
+        .success-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Тренажёр карточек</h1>
+    
+    <div class="nav-tabs" id="tabs">
+        <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('environment')">Environment</button>
+        <button class="tab-btn" onclick="changeCategory('hometown')">My Hometown</button>
+        <button class="tab-btn" onclick="changeCategory('house')">My House</button>
+    </div>
+
+    <div class="quiz-container">
+        <div id="quiz-box">
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span>Прогресс категории:</span>
+                    <span id="progress-count">0 / 0</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="card-display" id="card-display">
+                <div class="lang-label">Как это на английском?</div>
+                <div class="word-text" id="ru-word">Загрузка...</div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="answer-input" class="answer-input" placeholder="Введите перевод по-английски" autocomplete="off">
+                <button id="submit-btn" class="action-btn" onclick="checkAnswer()">Проверить</button>
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+        </div>
+        
+        <div id="success-box" class="success-screen" style="display: none;">
+            <h2>🎉 Отличная работа!</h2>
+            <p>Ты успешно выучил все выбранные слова!</p>
+            <button class="action-btn" onclick="restartCategory()">Пройти заново</button>
+        </div>
+    </div>
+
+    <script>
+        const allWords = [
+            // Environment
+            { ru: "естественная среда обитания", en: "Habitat", cat: "environment" },
+            { ru: "млекопитающие", en: "Mammals", cat: "environment" },
+            { ru: "почва", en: "Soil", cat: "environment" },
+            { ru: "плодородная почва / эрозия почвы", en: "Fertile soil / Soil erosion", cat: "environment" },
+            { ru: "дикая природа", en: "Wildlife", cat: "environment" },
+            { ru: "флора и фауна", en: "Flora and fauna", cat: "environment" },
+            { ru: "ландшафт", en: "Landscape", cat: "environment" },
+            { ru: "охрана природы", en: "Conservation", cat: "environment" },
+            { ru: "сохранение", en: "Preservation", cat: "environment" },
+            { ru: "устойчивое развитие", en: "Sustainability", cat: "environment" },
+            { ru: "загрязнение", en: "Contamination", cat: "environment" },
+            { ru: "токсичные отходы", en: "Toxic waste", cat: "environment" },
+            { ru: "индустриальные отходы", en: "Industrial waste", cat: "environment" },
+            { ru: "сточные воды", en: "Sewage", cat: "environment" },
+            { ru: "химикаты", en: "Chemicals", cat: "environment" },
+            { ru: "выбросы", en: "Emissions", cat: "environment" },
+            { ru: "выхлопные газы", en: "Exhaust fumes", cat: "environment" },
+            { ru: "загрязняющие вещества", en: "Pollutants", cat: "environment" },
+            { ru: "свалка", en: "Landfill", cat: "environment" },
+            { ru: "мусор", en: "Litter", cat: "environment" },
+            { ru: "сброс отходов", en: "Dumping", cat: "environment" },
+            { ru: "глобальное потепление", en: "Global warming", cat: "environment" },
+            { ru: "парниковый эффект / газы", en: "Greenhouse effect / gases", cat: "environment" },
+            { ru: "углекислый газ (CO2)", en: "Carbon dioxide", cat: "environment" },
+            { ru: "метан", en: "Methane", cat: "environment" },
+            { ru: "засуха", en: "Drought", cat: "environment" },
+            { ru: "наводнение", en: "Flood", cat: "environment" },
+            { ru: "ураган", en: "Hurricane", cat: "environment" },
+            { ru: "лесной пожар", en: "Wildfire", cat: "environment" },
+            { ru: "тающие ледники", en: "Melting glaciers", cat: "environment" },
+            { ru: "многоразовый", en: "Reusable", cat: "environment" },
+            { ru: "биоразлагаемый", en: "Biodegradable", cat: "environment" },
+            { ru: "сортировать мусор", en: "Sort waste", cat: "environment" },
+            { ru: "контейнер для сортировки", en: "Recycling bin", cat: "environment" },
+            { ru: "одноразовый", en: "Disposable", cat: "environment" },
+            { ru: "упаковка", en: "Packaging", cat: "environment" },
+            { ru: "одноразовый пластик", en: "Single-use plastic", cat: "environment" },
+            { ru: "возобновляемая энергия", en: "Renewable energy", cat: "environment" },
+            { ru: "солнечная / ветровая / гидроэлектрическая / геотермальная / ядерная энергия", en: "Solar / wind / hydroelectric / geothermal / nuclear power", cat: "environment" },
+            { ru: "энергоэффективный", en: "Energy-efficient", cat: "environment" },
+            { ru: "энергосберегающий", en: "Energy-saving", cat: "environment" },
+            { ru: "электростанция", en: "Power plant", cat: "environment" },
+            { ru: "солнечные панели", en: "Solar panels", cat: "environment" },
+            { ru: "вырубка лесов", en: "Deforestation", cat: "environment" },
+            { ru: "опустынивание", en: "Desertification", cat: "environment" },
+            { ru: "перенаселение", en: "Overpopulation", cat: "environment" },
+            { ru: "вымирание", en: "Extinction", cat: "environment" },
+            { ru: "исчезающие виды", en: "Endangered species", cat: "environment" },
+            { ru: "уничтожение среды обитания", en: "Habitat destruction", cat: "environment" },
+            { ru: "браконьерство", en: "Poaching", cat: "environment" },
+            { ru: "разлив нефти", en: "Oil spill", cat: "environment" },
+            { ru: "нехватка воды", en: "Water scarcity", cat: "environment" },
+            { ru: "повышать осведомленность", en: "Raise awareness", cat: "environment" },
+            { ru: "экологически сознательный", en: "Environmentally conscious", cat: "environment" },
+            { ru: "сберегать", en: "To conserve", cat: "environment" },
+            { ru: "решать (экологические проблемы)", en: "To tackle (environmental issues)", cat: "environment" },
+            { ru: "сохранять (биоразнообразие)", en: "To preserve (biodiversity)", cat: "environment" },
+            { ru: "перерабатывать бытовые отходы", en: "To recycle household waste", cat: "environment" },
+            { ru: "перейти на зеленый образ жизни", en: "To adopt green lifestyle", cat: "environment" },
+            { ru: "быть экологически осознанным", en: "To be environmentally conscious", cat: "environment" },
+            { ru: "вносить свой вклад в экологию", en: "To do one's bit for the environment", cat: "environment" },
+
+            // My Hometown
+            { ru: "живописный, колоритный", en: "Picturesque", cat: "hometown" },
+            { ru: "живой, полный энергии", en: "Vibrant", cat: "hometown" },
+            { ru: "причудливый, уютный, очаровательный старомодностью", en: "Quaint", cat: "hometown" },
+            { ru: "многонациональный", en: "Cosmopolitan", cat: "hometown" },
+            { ru: "огромный, разросшийся", en: "Sprawling", cat: "hometown" },
+            { ru: "индустриальный", en: "Industrial", cat: "hometown" },
+            { ru: "запущенный, полуразрушенный", en: "Run-down", cat: "hometown" },
+            { ru: "перегруженный транспортом, полный пробок", en: "Congested", cat: "hometown" },
+            { ru: "застроенный", en: "Built-up", cat: "hometown" },
+            { ru: "монотонный, серый, унылый", en: "Monotonous", cat: "hometown" },
+            { ru: "мегагород", en: "Megacity", cat: "hometown" },
+            { ru: "мегаполис", en: "Metropolis", cat: "hometown" },
+            { ru: "прибрежный город", en: "Coastal town", cat: "hometown" },
+            { ru: "пригород", en: "Suburbs", cat: "hometown" },
+            { ru: "окраина", en: "Outskirts", cat: "hometown" },
+            { ru: "спальный район", en: "Residential area", cat: "hometown" },
+            { ru: "центр", en: "Downtown", cat: "hometown" },
+            { ru: "гетто / внутренний город", en: "Inner city", cat: "hometown" },
+            { ru: "достопримечательность", en: "Landmark", cat: "hometown" },
+            { ru: "удобства (магазины, парки...)", en: "Facilities", cat: "hometown" },
+            { ru: "зоны отдыха (парки, набережные)", en: "Recreational areas", cat: "hometown" },
+            { ru: "пешеходная зона", en: "Pedestrian zone", cat: "hometown" },
+            { ru: "небоскребы", en: "Skyscrapers", cat: "hometown" },
+            { ru: "местные / локальные кафешки", en: "Local eateries", cat: "hometown" },
+            { ru: "удобно расположенный (Мой город уютно устроился между двух холмов)", en: "Nestled", cat: "hometown" },
+            { ru: "быстро появляться (Новые торговые центры растут повсюду)", en: "To spring up", cat: "hometown" },
+            { ru: "добираться / ездить", en: "Commute", cat: "hometown" },
+            { ru: "темп жизни", en: "Pace of life", cat: "hometown" },
+            { ru: "стоимость жизни", en: "Cost of living", cat: "hometown" },
+            { ru: "динамичный", en: "Fast-paced", cat: "hometown" },
+            { ru: "густонаселенный", en: "Densely populated", cat: "hometown" },
+
+            // My House / Accommodation
+            { ru: "диван", en: "Couch", cat: "house" },
+            { ru: "шкаф для одежды", en: "Wardrobe", cat: "house" },
+            { ru: "шкаф для посуды", en: "Cupboard", cat: "house" },
+            { ru: "комод с выдвижными ящиками", en: "Chest of drawers", cat: "house" },
+            { ru: "прикроватная тумбочка", en: "Bedside table", cat: "house" },
+            { ru: "пуфик", en: "Ottoman", cat: "house" },
+            { ru: "встроенный шкаф-купе", en: "Built-in wardrobe", cat: "house" },
+            { ru: "раскладной диван", en: "Sofa bed", cat: "house" },
+            { ru: "туалетный столик", en: "Dressing table", cat: "house" },
+            { ru: "духовка", en: "Oven", cat: "house" },
+            { ru: "плита", en: "Stove", cat: "house" },
+            { ru: "ковровое покрытие", en: "Carpet", cat: "house" },
+            { ru: "ковёр", en: "Rug", cat: "house" },
+            { ru: "подоконник", en: "Window sill", cat: "house" },
+            { ru: "шторы", en: "Curtains", cat: "house" },
+            { ru: "табурет", en: "Stool", cat: "house" },
+            { ru: "постельные принадлежности", en: "Bedding", cat: "house" },
+            { ru: "изголовье, спинка кровати", en: "Headboard", cat: "house" },
+            { ru: "отдельно стоящая ванная", en: "Roll-top bath", cat: "house" },
+            { ru: "отдельно стоящий частный дом", en: "Detached house", cat: "house" },
+            { ru: "дом, разделенный на две квартиры", en: "Semi-detached house", cat: "house" },
+            { ru: "дом ленточной застройки", en: "Terraced house", cat: "house" },
+            { ru: "коттедж", en: "Cottage", cat: "house" },
+            { ru: "однокомнатная квартира-студия", en: "Studio flat", cat: "house" },
+            { ru: "пентхаус", en: "Penthouse", cat: "house" },
+            { ru: "высотка", en: "Multi-story building", cat: "house" },
+            { ru: "элитное жилье", en: "High-end apartment", cat: "house" },
+            { ru: "одноэтажный дом с пологой крышей", en: "Bungalow", cat: "house" },
+            { ru: "в пригороде", en: "Suburbs", cat: "house" },
+            { ru: "жилой / спальный район", en: "Residential area", cat: "house" },
+            { ru: "центр города", en: "Downtown", cat: "house" },
+            { ru: "на окраине города", en: "Outskirts", cat: "house" },
+            { ru: "гостиная", en: "Living room / Lounge", cat: "house" },
+            { ru: "коридор / прихожая", en: "Hall / Hallway", cat: "house" },
+            { ru: "хозяйственная комната", en: "Utility room", cat: "house" },
+            { ru: "ванная, совмещенная со спальней", en: "En-suite bathroom", cat: "house" },
+            { ru: "чулан", en: "Box room", cat: "house" },
+            { ru: "мансардное окно", en: "Skylight", cat: "house" },
+            { ru: "планировка открытого типа (кухня-гостиная)", en: "Open-plan kitchen and living room", cat: "house" },
+            { ru: "просторный", en: "Spacious", cat: "house" },
+            { ru: "воздушный", en: "Airy", cat: "house" },
+            { ru: "уютный", en: "Cosy", cat: "house" },
+            { ru: "уютный, домашний", en: "Homely", cat: "house" },
+            { ru: "хорошо освещённый", en: "Well-lit", cat: "house" },
+            { ru: "тесный", en: "Cramped", cat: "house" },
+            { ru: "захламлённый", en: "Cluttered", cat: "house" },
+            { ru: "темный, мрачный", en: "Gloomy", cat: "house" },
+            { ru: "со сквозняками", en: "Drafty", cat: "house" },
+            { ru: "минималистичный", en: "Minimalist", cat: "house" },
+            { ru: "современный", en: "Contemporary / modern", cat: "house" },
+            { ru: "устаревший", en: "Dated", cat: "house" },
+            { ru: "полностью меблированный", en: "Fully-furnished", cat: "house" },
+            { ru: "владелец", en: "Owner", cat: "house" },
+            { ru: "арендодатель", en: "Landlord", cat: "house" },
+            { ru: "арендатор", en: "Tenant", cat: "house" },
+            { ru: "арендатор (через R)", en: "Renter", cat: "house" },
+            { ru: "жилец", en: "Lodger", cat: "house" },
+            { ru: "живет с питанием", en: "Boarder", cat: "house" }
+        ];
+
+        let currentCategory = 'all';
+        let currentDeck = [];
+        let totalInSession = 0;
+        let learnedCount = 0;
+        let isShowingAnswer = false;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initQuiz() {
+            if (currentCategory === 'all') {
+                currentDeck = [...allWords];
+            } else {
+                currentDeck = allWords.filter(w => w.cat === currentCategory);
+            }
+            shuffle(currentDeck);
+            totalInSession = currentDeck.length;
+            learnedCount = 0;
+            isShowingAnswer = false;
+            
+            document.getElementById('quiz-box').style.display = 'block';
+            document.getElementById('success-box').style.display = 'none';
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('answer-input').value = '';
+            document.getElementById('submit-btn').innerText = "Проверить";
+            
+            updateProgress();
+            showNextCard();
+        }
+
+        function showNextCard() {
+            if (currentDeck.length === 0) {
+                document.getElementById('quiz-box').style.display = 'none';
+                document.getElementById('success-box').style.display = 'flex';
+                return;
+            }
+            const currentCard = currentDeck[0];
+            document.getElementById('ru-word').innerText = currentCard.ru;
+            document.getElementById('card-display').style.backgroundColor = '#ffffff';
+            document.getElementById('answer-input').value = '';
+            document.getElementById('answer-input').disabled = false;
+            document.getElementById('answer-input').focus();
+            document.getElementById('feedback').innerHTML = '';
+            document.getElementById('submit-btn').innerText = "Проверить";
+            isShowingAnswer = false;
+        }
+
+        function checkAnswer() {
+            if (currentDeck.length === 0) return;
+
+            const inputField = document.getElementById('answer-input');
+            const feedbackField = document.getElementById('feedback');
+            const cardDisplay = document.getElementById('card-display');
+            const submitBtn = document.getElementById('submit-btn');
+
+            if (isShowingAnswer) {
+                showNextCard();
+                return;
+            }
+
+            const userAnswer = inputField.value.trim().toLowerCase();
+            const correctAnswers = currentDeck[0].en.split('/').map(ans => ans.trim().toLowerCase());
+            
+            let isCorrect = false;
+            correctAnswers.forEach(correct => {
+                if (userAnswer === correct || currentDeck[0].en.toLowerCase().trim() === userAnswer || 
+                    currentDeck[0].en.toLowerCase().trim().replace('to ', '') === userAnswer) {
+                    isCorrect = true;
+                }
+            });
+
+            inputField.disabled = true;
+
+            if (isCorrect) {
+                feedbackField.className = "feedback success";
+                feedbackField.innerHTML = "✨ Правильно!";
+                cardDisplay.style.backgroundColor = "#e8f5e9";
+                
+                currentDeck.shift();
+                learnedCount++;
+                updateProgress();
+                
+                setTimeout(showNextCard, 1200);
+            } else {
+                feedbackField.className = "feedback error";
+                feedbackField.innerHTML = `❌ Ошибка!<div class="correct-answer">Правильный ответ: <strong>${currentDeck[0].en}</strong></div>`;
+                cardDisplay.style.backgroundColor = "#ffebee";
+                
+                const failedCard = currentDeck.shift();
+                currentDeck.push(failedCard);
+                
+                submitBtn.innerText = "Дальше";
+                isShowingAnswer = true;
+            }
+        }
+
+        function updateProgress() {
+            document.getElementById('progress-count').innerText = `${learnedCount} / ${totalInSession}`;
+            const percentage = totalInSession > 0 ? (learnedCount / totalInSession) * 100 : 0;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        function changeCategory(category) {
+            currentCategory = category;
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            initQuiz();
+        }
+
+        function restartCategory() {
+            initQuiz();
+        }
+
+        document.getElementById('answer-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
