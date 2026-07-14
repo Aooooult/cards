@@ -178,6 +178,7 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('health')">Health</button>
         <button class="tab-btn" onclick="changeCategory('environment')">Environment</button>
         <button class="tab-btn" onclick="changeCategory('hometown')">My Hometown</button>
         <button class="tab-btn" onclick="changeCategory('house')">My House</button>
@@ -217,6 +218,66 @@
 
     <script>
         const allWords = [
+            // --- СЛОВА С ЛИСТОЧКА (Категория: Health) ---
+            { ru: "личные расходы (не покрываемые страховкой)", en: "out-of-pocket expenses", cat: "health" },
+            { ru: "укреплять иммунную систему", en: "boost the immune system", cat: "health" },
+            { ru: "страдать хроническим заболеванием", en: "suffer from chronic illness", cat: "health" },
+            { ru: "поддерживать здоровый образ жизни", en: "maintain a healthy lifestyle", cat: "health" },
+            { ru: "вести активный / сидячий образ жизни", en: "lead an active / sedentary lifestyle", cat: "health" },
+            { ru: "пройти лечение", en: "undergo medical treatment", cat: "health" },
+            { ru: "гигиена", en: "hygiene", cat: "health" },
+            { ru: "выздоровление", en: "recovery", cat: "health" },
+            
+            { ru: "малоподвижный образ жизни", en: "sedentary lifestyle", cat: "health" },
+            { ru: "активный образ жизни", en: "active lifestyle", cat: "health" },
+            { ru: "пищевые привычки", en: "dietary habits", cat: "health" },
+            { ru: "полуфабрикаты / обработанная пища", en: "processed food", cat: "health" },
+            { ru: "сократить потребление сахара", en: "to cut down on sugar", cat: "health" },
+            { ru: "укреплять иммунитет / сопротивляемость", en: "to build up resistance", cat: "health" },
+            
+            { ru: "ожирение", en: "obesity", cat: "health" },
+            { ru: "хроническое заболевание", en: "chronic disease", cat: "health" },
+            { ru: "психическое здоровье / благополучие", en: "mental health", cat: "health" },
+            { ru: "расстройство пищевого поведения", en: "eating disorder", cat: "health" },
+            { ru: "хроническое недосыпание", en: "sleep deprivation", cat: "health" },
+            { ru: "быть склонным к чему-то", en: "to be prone to smth", cat: "health" },
+            
+            { ru: "профилактическая медицина", en: "preventative medicine", cat: "health" },
+            { ru: "система здравоохранения", en: "healthcare system", cat: "health" },
+            { ru: "медицинское лечение", en: "medical treatment", cat: "health" },
+            { ru: "продолжительность жизни", en: "life expectancy", cat: "health" },
+            
+            { ru: "негативно сказываться на здоровье", en: "to take a toll on health", cat: "health" },
+            { ru: "яркий пример", en: "a prime example", cat: "health" },
+            { ru: "неважно себя чувствовать", en: "to be under the weather", cat: "health" },
+            
+            { ru: "терапевт, врач", en: "physician", cat: "health" },
+            { ru: "хирург", en: "surgeon", cat: "health" },
+            { ru: "врач узкого профиля", en: "specialist", cat: "health" },
+            { ru: "медицинский работник", en: "healthcare worker", cat: "health" },
+            { ru: "страховая компания, страховщик", en: "insurer", cat: "health" },
+            
+            { ru: "медицинское учреждение", en: "healthcare facility", cat: "health" },
+            
+            { ru: "болезнь (i...)", en: "illness", cat: "health" },
+            { ru: "заболевание (d...)", en: "disease", cat: "health" },
+            { ru: "инвалидность", en: "disability", cat: "health" },
+            { ru: "тревожность", en: "anxiety", cat: "health" },
+            
+            { ru: "сбалансированное питание", en: "balanced diet", cat: "health" },
+            { ru: "хорошая физическая форма", en: "physical fitness", cat: "health" },
+            { ru: "управление стрессом", en: "stress management", cat: "health" },
+            
+            { ru: "рецепт (на лекарство)", en: "prescription", cat: "health" },
+            { ru: "вакцинация", en: "vaccination", cat: "health" },
+            { ru: "медицинский осмотр", en: "health check-up", cat: "health" },
+            
+            { ru: "страховой полис", en: "insurance policy", cat: "health" },
+            { ru: "медицинские расходы", en: "medical expenses", cat: "health" },
+            { ru: "расходы на здравоохранение (h... e...)", en: "healthcare expenditures", cat: "health" },
+            { ru: "расходы на здравоохранение (h... e...d...) ", en: "healthcare expenditure", cat: "health" },
+            { ru: "оформить медицинскую страховку", en: "purchase health insurance", cat: "health" },
+
             // Environment
             { ru: "естественная среда обитания", en: "Habitat", cat: "environment" },
             { ru: "млекопитающие", en: "Mammals", cat: "environment" },
@@ -439,13 +500,27 @@
                 return;
             }
 
-            const userAnswer = inputField.value.trim().toLowerCase();
-            const correctAnswers = currentDeck[0].en.split('/').map(ans => ans.trim().toLowerCase());
+            const userAnswer = inputField.value.trim().toLowerCase().replace(/\s+/g, ' ');
+            const rawCorrect = currentDeck[0].en.toLowerCase().trim();
             
+            // Массив возможных вариаций правильного ответа для гибкости ввода
+            const correctAnswers = [
+                rawCorrect,
+                rawCorrect.replace(/^to\s+/, ''), // без частицы "to"
+                rawCorrect.replace(/\s*\/\s*/g, '/'), // убираем лишние пробелы вокруг слэшей
+            ];
+            
+            // Если в ответе есть слэш (например, "active / sedentary lifestyle"), разбиваем на части
+            if (rawCorrect.includes('/')) {
+                const parts = rawCorrect.split('/').map(p => p.trim());
+                parts.forEach(p => correctAnswers.push(p));
+            }
+
             let isCorrect = false;
             correctAnswers.forEach(correct => {
-                if (userAnswer === correct || currentDeck[0].en.toLowerCase().trim() === userAnswer || 
-                    currentDeck[0].en.toLowerCase().trim().replace('to ', '') === userAnswer) {
+                if (userAnswer === correct || 
+                    userAnswer === correct.replace(/^to\s+/, '') ||
+                    userAnswer === correct.replace(/\s*\/\s*/, '/')) {
                     isCorrect = true;
                 }
             });
