@@ -178,6 +178,7 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('people_relationships')">People and relationships</button>
         <button class="tab-btn" onclick="changeCategory('health')">Health</button>
         <button class="tab-btn" onclick="changeCategory('environment')">Environment</button>
         <button class="tab-btn" onclick="changeCategory('hometown')">My Hometown</button>
@@ -218,7 +219,75 @@
 
     <script>
         const allWords = [
-            // --- СЛОВА С ЛИСТОЧКА (Категория: Health) ---
+            // --- СЛОВА С ЛИСТОЧКОВ (Категория: People and relationships) ---
+            // Personality
+            { ru: "амбициозный", en: "ambitious", cat: "people_relationships" },
+            { ru: "тупой, грубый, резкий", en: "blunt", cat: "people_relationships" },
+            { ru: "весёлый (g... f...)", en: "good fun", cat: "people_relationships" },
+            { ru: "осуждающий", en: "judgemental", cat: "people_relationships" },
+            { ru: "любопытный, носатый", en: "nosy", cat: "people_relationships" },
+            { ru: "открытый, беспристрастный", en: "open-minded", cat: "people_relationships" },
+            { ru: "общительный, дружелюбный", en: "outgoing", cat: "people_relationships" },
+            { ru: "надёжный, достоверный", en: "reliable", cat: "people_relationships" },
+            { ru: "самоуверенный, уверенный в себе", en: "self-assured", cat: "people_relationships" },
+            { ru: "скупой, жадный", en: "stingy", cat: "people_relationships" },
+            { ru: "замкнутый", en: "reserved", cat: "people_relationships" },
+            { ru: "сдержанный", en: "reserved", cat: "people_relationships" },
+            { ru: "спокойный, лёгкий, добродушный", en: "easy-going", cat: "people_relationships" },
+            { ru: "внимательный к другим, заботливый", en: "considerate", cat: "people_relationships" },
+            { ru: "щедрый", en: "generous", cat: "people_relationships" },
+            { ru: "упрямый", en: "stubborn", cat: "people_relationships" },
+            { ru: "с чувством юмора", en: "humorous", cat: "people_relationships" },
+
+            // Family relationships
+            { ru: "дружная семья", en: "close-knit family", cat: "people_relationships" },
+            { ru: "ближайшая семья", en: "immediate family", cat: "people_relationships" },
+            { ru: "дальние родственники", en: "extended family", cat: "people_relationships" },
+            { ru: "воспитание", en: "upbringing", cat: "people_relationships" },
+
+            // Relationship phrases
+            { ru: "ладить (g... o... w... w... s...)", en: "get on with somebody", cat: "people_relationships" },
+            { ru: "равняться на, восхищаться (l... u... t... s...)", en: "look up to somebody", cat: "people_relationships" },
+            { ru: "поддерживать связь с (b... i... t... w... s...)", en: "be in touch with somebody", cat: "people_relationships" },
+            { ru: "ссориться с (f... o... w... s...)", en: "fall out with somebody", cat: "people_relationships" },
+            { ru: "постепенно отдаляться друг от друга (g... a... f... s...)", en: "grow apart from somebody", cat: "people_relationships" },
+            { ru: "пойти по стопам, следовать (t... a... s...)", en: "take after somebody", cat: "people_relationships" },
+            { ru: "вырасти вместе", en: "grow up together", cat: "people_relationships" },
+            { ru: "быть близким к кому-то", en: "be close to somebody", cat: "people_relationships" },
+            { ru: "хорошо ладить с кем-то (g... a... w... w... s...)", en: "get along well with somebody", cat: "people_relationships" },
+            { ru: "иметь крепкую связь (h... a... s... b...)", en: "have a strong bond", cat: "people_relationships" },
+            { ru: "иметь хорошие отношения (h... a... g... r...)", en: "have a good relationship", cat: "people_relationships" },
+            { ru: "сходиться во взглядах на (decisions)", en: "see eye to eye on smth", cat: "people_relationships" },
+            { ru: "иметь много общего", en: "have a lot in common", cat: "people_relationships" },
+            { ru: "встретиться и обменяться новостями", en: "catch up", cat: "people_relationships" },
+            { ru: "иметь схожие интересы", en: "share similar interests", cat: "people_relationships" },
+
+            // Friendship
+            { ru: "друг на всю жизнь", en: "lifelong friend", cat: "people_relationships" },
+            { ru: "друг детства", en: "childhood friend", cat: "people_relationships" },
+            { ru: "знакомый", en: "acquaintance", cat: "people_relationships" },
+            { ru: "круг общения", en: "social circle", cat: "people_relationships" },
+
+            // Phrases
+            { ru: "быть рядом в трудную минуту", en: "be there for someone", cat: "people_relationships" },
+            { ru: "полагаться на кого-то", en: "rely on someone", cat: "people_relationships" },
+            { ru: "раскрывать лучшие качества человека", en: "bring out the best in someone", cat: "people_relationships" },
+            { ru: "постепенно отдалиться друг от друга (d... a...)", en: "drift apart", cat: "people_relationships" },
+            { ru: "таить обиду", en: "hold a grudge", cat: "people_relationships" },
+            { ru: "быть в плохих отношениях", en: "be on bad terms", cat: "people_relationships" },
+            { ru: "строить взаимное доверие", en: "build mutual trust", cat: "people_relationships" },
+            { ru: "наладить хорошее общение", en: "establish good communication", cat: "people_relationships" },
+
+            // Personality + Ph
+            { ru: "бескорыстный", en: "selfless", cat: "people_relationships" },
+            { ru: "надежный (d...)", en: "dependable", cat: "people_relationships" },
+            { ru: "заслуживающий доверия", en: "trustworthy", cat: "people_relationships" },
+            { ru: "понимающий", en: "understanding", cat: "people_relationships" },
+            { ru: "поддерживать здоровые отношения", en: "maintain healthy relationships", cat: "people_relationships" },
+            { ru: "решать конфликты мирно", en: "resolve conflicts peacefully", cat: "people_relationships" },
+            { ru: "ценить друг друга", en: "appreciate one another", cat: "people_relationships" },
+
+            // --- СЛОВА ИЗ ПРОШЛОГО КОДА (Категория: Health) ---
             { ru: "личные расходы (не покрываемые страховкой)", en: "out-of-pocket expenses", cat: "health" },
             { ru: "укреплять иммунную систему", en: "boost the immune system", cat: "health" },
             { ru: "страдать хроническим заболеванием", en: "suffer from chronic illness", cat: "health" },
@@ -275,7 +344,7 @@
             { ru: "страховой полис", en: "insurance policy", cat: "health" },
             { ru: "медицинские расходы", en: "medical expenses", cat: "health" },
             { ru: "расходы на здравоохранение (h... e...)", en: "healthcare expenditures", cat: "health" },
-            { ru: "расходы на здравоохранение (h... e...d...) ", en: "healthcare expenditure", cat: "health" },
+            { ru: "расходы на здравоохранение (h... e...d...)", en: "healthcare expenditure", cat: "health" },
             { ru: "оформить медицинскую страховку", en: "purchase health insurance", cat: "health" },
 
             // Environment
@@ -426,7 +495,7 @@
             { ru: "минималистичный", en: "Minimalist", cat: "house" },
             { ru: "современный", en: "Contemporary / modern", cat: "house" },
             { ru: "устаревший", en: "Dated", cat: "house" },
-            { ru: "полностью меблированный", en: "Fully-furnished", cat: "house" },
+            { ru: "полностью meблированный", en: "Fully-furnished", cat: "house" },
             { ru: "владелец", en: "Owner", cat: "house" },
             { ru: "арендодатель", en: "Landlord", cat: "house" },
             { ru: "арендатор", en: "Tenant", cat: "house" },
@@ -503,14 +572,12 @@
             const userAnswer = inputField.value.trim().toLowerCase().replace(/\s+/g, ' ');
             const rawCorrect = currentDeck[0].en.toLowerCase().trim();
             
-            // Массив возможных вариаций правильного ответа для гибкости ввода
             const correctAnswers = [
                 rawCorrect,
-                rawCorrect.replace(/^to\s+/, ''), // без частицы "to"
-                rawCorrect.replace(/\s*\/\s*/g, '/'), // убираем лишние пробелы вокруг слэшей
+                rawCorrect.replace(/^to\s+/, ''), 
+                rawCorrect.replace(/\s*\/\s*/g, '/'), 
             ];
             
-            // Если в ответе есть слэш (например, "active / sedentary lifestyle"), разбиваем на части
             if (rawCorrect.includes('/')) {
                 const parts = rawCorrect.split('/').map(p => p.trim());
                 parts.forEach(p => correctAnswers.push(p));
