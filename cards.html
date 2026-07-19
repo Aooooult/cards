@@ -202,6 +202,7 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('education')">Education</button>
         <button class="tab-btn" onclick="changeCategory('people_relationships')">People and relationships</button>
         <button class="tab-btn" onclick="changeCategory('health')">Health</button>
         <button class="tab-btn" onclick="changeCategory('environment')">Environment</button>
@@ -244,6 +245,38 @@
 
     <script>
         const allWords = [
+            // --- Категория: Education ---
+            { ru: "профессиональное образование", en: "vocational education", cat: "education", example: "Vocational education provides students with practical skills for specific trades.", example_ru: "Профессиональное образование дает студентам практические навыки для конкретных профессий." },
+            { ru: "школьник", en: "pupil", cat: "education", example: "The primary school teacher welcomed each new pupil into the classroom.", example_ru: "Учитель начальных классов поприветствовал каждого нового школьника в классе." },
+            { ru: "преподаватель университета", en: "lecturer", cat: "education", example: "Our chemistry lecturer explained the complex formula very clearly.", example_ru: "Наш университетский преподаватель химии очень понятно объяснил сложную формулу." },
+            { ru: "посещать занятия", en: "attend classes", cat: "education", example: "To succeed in college, you must attend classes regularly.", example_ru: "Чтобы добиться успеха в колледже, необходимо регулярно посещать занятия." },
+            { ru: "сдавать задание", en: "hand in an assignment", cat: "education", example: "Students need to hand in an assignment before Friday afternoon.", example_ru: "Студентам нужно сдать задание до полудня пятницы." },
+            { ru: "сдавать экзамен", en: "sit / take an exam", cat: "education", example: "She studied all night to sit / take an exam in world history.", example_ru: "Она училась всю ночь, чтобы сдать экзамен по всемирной истории." },
+            { ru: "учебная программа", en: "curriculum", cat: "education", example: "The school’s math curriculum includes algebra and basic calculus.", example_ru: "Школьная программа по математике включает в себя алгебру и основы исчисления." },
+            { ru: "стипендия", en: "scholarship", cat: "education", example: "He received a full scholarship due to his excellent high school grades.", example_ru: "Он получил полную стипендию благодаря своим отличным школьным оценкам." },
+            { ru: "плата за обучение", en: "tuition fees", cat: "education", example: "Many students rely on part-time jobs to pay their university tuition fees.", example_ru: "Многие студенты полагаются на подработку, чтобы оплачивать обучение в университете." },
+            { ru: "получать знания", en: "gain knowledge", cat: "education", example: "Reading books is one of the best ways to gain knowledge about different cultures.", example_ru: "Чтение книг — один из лучших способов получать знания о различных культурах." },
+            { ru: "приобретать навыки", en: "acquire skills", cat: "education", example: "Internships allow young people to acquire skills that employers value.", example_ru: "Стажировки позволяют молодым людям приобретать навыки, которые ценят работодатели." },
+            { ru: "расширять кругозор", en: "broaden one's horizons", cat: "education", example: "Studying abroad will definitely broaden your horizons.", example_ru: "Обучение за рубежом определенно расширит твой кругозор." },
+            { ru: "улучшить успеваемость", en: "improve academic performance", cat: "education", example: "Tutors can help students improve academic performance in complex subjects.", example_ru: "Репетиторы могут помочь студентам улучшить успеваемость по сложным предметам." },
+            { ru: "развивать критическое мышление", en: "develop critical thinking", cat: "education", example: "Good universities encourage students to develop critical thinking, not just memorize facts.", example_ru: "Хорошие университеты призывают студентов развивать критическое мышление, а не просто зазубривать факты." },
+            { ru: "образованный", en: "knowledgeable", cat: "education", example: "Our history teacher is highly knowledgeable about the Roman Empire.", example_ru: "Наш учитель истории очень образован в вопросах Римской империи." },
+            { ru: "любознательный", en: "curious", cat: "education", example: "A curious student always asks deep questions during the lecture.", example_ru: "Любознательный студент всегда задает глубокие вопросы во время лекции." },
+            { ru: "увлечённый", en: "enthusiastic", cat: "education", example: "The professor was enthusiastic about his new research project.", example_ru: "Профессор был увлечён своим новым исследовательским проектом." },
+            { ru: "получать хорошие оценки", en: "achieve good grades", cat: "education", example: "If you listen carefully in class, you can easily achieve good grades.", example_ru: "Если внимательно слушать на уроках, можно легко получать хорошие оценки." },
+            { ru: "карьерные перспективы", en: "career prospects", cat: "education", example: "Learning data science can significantly boost your future career prospects.", example_ru: "Изучение анализа данных может значительно улучшить твои будущие карьерные перспективы." },
+            { ru: "иметь страсть к обучению", en: "have a passion for learning", cat: "education", example: "Successful scientists always have a deep passion for learning.", example_ru: "Успешные ученые всегда имеют глубокую страсть к обучению." },
+            { ru: "идти в ногу с новыми знаниями", en: "keep up with new knowledge", cat: "education", example: "Professionals must read journals to keep up with new knowledge in their field.", example_ru: "Профессионалы должны читать журналы, чтобы идти в ногу с новыми знаниями в своей сфере." },
+            { ru: "учиться на ошибках", en: "learn from mistakes", cat: "education", example: "Don't be afraid to fail; it is important to learn from mistakes.", example_ru: "Не бойся неудач, важно учиться на ошибках." },
+            { ru: "быть внимательным на уроке", en: "pay attention in class", cat: "education", example: "You need to pay attention in class to understand the grammar rules.", example_ru: "Тебе нужно быть внимательным на уроке, чтобы понять правила грамматики." },
+            { ru: "усердно заниматься", en: "hit the books", cat: "education", example: "The final exams start tomorrow, so it’s time to hit the books.", example_ru: "Финальные экзамены начинаются завтра, так что пора усердно заниматься." },
+            { ru: "знать вдоль и поперёк", en: "know smth inside out", cat: "education", example: "She prepared so well that she knows the topic inside out.", example_ru: "Она так хорошо подготовилась, что знает эту тему вдоль и поперёк." },
+            { ru: "академические достижения", en: "academic achievement", cat: "education", example: "The university honors students for outstanding academic achievement.", example_ru: "Университет награждает студентов за выдающиеся академические достижения." },
+            { ru: "навыки решения проблем", en: "problem-solving skills", cat: "education", example: "Coding tasks help kids develop excellent problem-solving skills.", example_ru: "Задания по программированию помогают детям развивать отличные навыки решения проблем." },
+            { ru: "самодисциплина", en: "self discipline", cat: "education", example: "Online learning requires a great deal of self discipline.", example_ru: "Онлайн-обучение требует большой самодисциплины." },
+            { ru: "образовательное неравенство", en: "educational inequality", cat: "education", example: "Government grants aim to reduce educational inequality in poor regions.", example_ru: "Государственные гранты направлены на сокращение образовательного неравенства в бедных регионах." },
+            { ru: "всестороннее обучение", en: "holistic education", cat: "education", example: "The school provides a holistic education focusing on both arts and sciences.", example_ru: "Школа обеспечивает всестороннее обучение, уделяя внимание как искусству, так и наукам." },
+
             // --- Категория: People and relationships ---
             { ru: "амбициозный", en: "ambitious", cat: "people_relationships", example: "She is an ambitious lawyer who wants to become a partner.", example_ru: "Она амбициозный юрист, который хочет стать партнером." },
             { ru: "тупой, грубый, резкий", en: "blunt", cat: "people_relationships", example: "To be blunt, your current plan will not work.", example_ru: "Если говорить резко, твой текущий план не сработает." },
@@ -256,6 +289,7 @@
             { ru: "самоуверенный, уверенный в себе", en: "self-assured", cat: "people_relationships", example: "She walked onto the stage looking calm and self-assured.", example_ru: "Она вышла на сцену, выглядя спокойной и уверенной в себе." },
             { ru: "скупой, жадный", en: "stingy", cat: "people_relationships", example: "Don't be so stingy, leave a proper tip for the waiter.", example_ru: "Не будь таким скупым, оставь нормальные чаевые официанту." },
             { ru: "замкнутый / сдержанный", en: "reserved", cat: "people_relationships", example: "He is a reserved man who rarely shares his feelings.", example_ru: "Он замкнутый человек, который редко делится своими чувствами." },
+            { ru: "монотонный, серый, унылый", en: "Monotonous", cat: "hometown", example: "The monotonous grey concrete blocks look depressed.", example_ru: "Монотонные серые бетонные кварталы выглядят уныло." },
             { ru: "спокойный, лёгкий, добродушный", en: "easy-going", cat: "people_relationships", example: "I love my easy-going boss because he never stresses us out.", example_ru: "Я обожаю своего спокойного начальника, потому что он никогда не треплет нам нервы." },
             { ru: "внимательный к другим, заботливый", en: "considerate", cat: "people_relationships", example: "It was very considerate of you to bring me coffee.", example_ru: "Это было очень заботливо с твоей стороны — принести мне кофе." },
             { ru: "щедрый", en: "generous", cat: "people_relationships", example: "He made a generous donation to the local charity.", example_ru: "Он сделал щедрое пожертвование местной благотворительной организации." },
@@ -342,7 +376,7 @@
             { ru: "хорошая физическая форма", en: "physical fitness", cat: "health", example: "Running daily improves your overall physical fitness.", example_ru: "Ежедневный бег улучшает вашу общую физическую форму." },
             { ru: "управление стрессом", en: "stress management", cat: "health", example: "Yoga is an excellent tool for stress management.", example_ru: "Йога — отличный инструмент для управления стрессом." },
             { ru: "рецепт (на лекарство)", en: "prescription", cat: "health", example: "Antibiotics are only sold with a doctor's prescription.", example_ru: "Антибиотики продаются только по рецепту врача." },
-            { ru: "вакцинация", en: "vaccination", cat: "health", example: "Mass vaccination helped eliminate dangerous viruses.", example_ru: "Массовая вакцинация помогла уничтожить опасные вирусы." },
+            { ru: "вакцинация", en: "vaccination", cat: "health", example: "Mass vaccination helped eliminate dangerous viruses.", example_ru: "Mass vaccination helped eliminate dangerous viruses." },
             { ru: "медицинский осмотр", en: "health check-up", cat: "health", example: "An annual health check-up can catch problems early.", example_ru: "Ежегодный медицинский осмотр может выявить проблемы на ранней стадии." },
             { ru: "страховой полис", en: "insurance policy", cat: "health", example: "Please read the terms of your health insurance policy.", example_ru: "Пожалуйста, ознакомьтесь с условиями вашего полиса медицинского страхования." },
             { ru: "медицинские расходы", en: "medical expenses", cat: "health", example: "Save your receipts to claim your medical expenses later.", example_ru: "Сохраняйте чеки, чтобы позже заявить свои медицинские расходы." },
@@ -361,7 +395,7 @@
             { ru: "сохранение", en: "Preservation", cat: "environment", example: "The preservation of historic structures costs a lot of money.", example_ru: "Сохранение исторических памятников стоит больших денег." },
             { ru: "устойчивое развитие", en: "Sustainability", cat: "environment", example: "Ecologists advocate for ecological sustainability in production.", example_ru: "Экологи выступают за экологическое устойчивое развитие в производстве." },
             { ru: "загрязнение", en: "Contamination", cat: "environment", example: "Chemical leak led to toxic contamination of the river water.", example_ru: "Утечка химикатов привела к токсичному загрязнению речной воды." },
-            { ru: "токсичные отходы", en: "Toxic waste", cat: "environment", example: "The factory was heavily fined for dumping toxic waste.", example_ru: "Завод был оштрафован на крупную сумму за сброс токсичных отходов." },
+            { ru: "токсичные отходы", en: "Toxic waste", cat: "environment", example: "The factory was heavily fined for dumping toxic waste.", example_ru: "Завод был оштрахован на крупную сумму за сброс токсичных отходов." },
             { ru: "индустриальные отходы", en: "Industrial waste", cat: "environment", example: "Industrial waste must be treated before disposal.", example_ru: "Индустриальные отходы должны проходить очистку перед утилизацией." },
             { ru: "сточные воды", en: "Sewage", cat: "environment", example: "Raw sewage should never be pumped straight into the ocean.", example_ru: "Неочищенные сточные воды никогда не должны сбрасываться прямо в океан." },
             { ru: "химикаты", en: "Chemicals", cat: "environment", example: "Farmers shouldn't use harmful chemicals on crops.", example_ru: "Фермерам не стоит использовать опасные химикаты на посевах." },
@@ -409,7 +443,7 @@
             { ru: "сохранять (биоразнообразие)", en: "preserve", cat: "environment", example: "National parks help to preserve global biodiversity.", example_ru: "Национальные парки помогают сохранять мировое биоразнообразие." },
             { ru: "перерабатывать бытовые отходы", en: "recycle household waste", cat: "environment", example: "We try to recycle household waste like glass and paper.", example_ru: "Мы стараемся перерабатывать бытовые отходы, такие как стекло и бумага." },
             { ru: "перейти на зеленый образ жизни", en: "adopt green lifestyle", cat: "environment", example: "They chose to adopt green lifestyle by cycling to work.", example_ru: "Они решили перейти на зеленый образ жизни, добираясь на работу на велосипеде." },
-            { ru: "быть экологически осознанным", en: "be environmentally conscious", cat: "environment", example: "Our company strives to be environmentally conscious in production.", example_ru: "Наша company стремится быть экологически осознанной в производстве." },
+            { ru: "быть экологически осознанным", en: "be environmentally conscious", cat: "environment", example: "Our company strives to be environmentally conscious in production.", example_ru: "Наша компания стремится быть экологически осознанной в производстве." },
             { ru: "вносить свой вклад в экологию", en: "do one's bit for the environment", cat: "environment", example: "By sorting trash, you do your bit for the environment.", example_ru: "Сортируя мусор, вы вносите свой вклад в экологию." },
 
             // --- Категория: My Hometown ---
@@ -436,7 +470,7 @@
             { ru: "зоны отдыха (парки, набережные)", en: "Recreational areas", cat: "hometown", example: "Riverside paths serve as fine recreational areas.", example_ru: "Набережные зоны служат отличными зонами отдыха." },
             { ru: "пешеходная зона", en: "Pedestrian zone", cat: "hometown", example: "Cars are completely banned inside the pedestrian zone.", example_ru: "Машины полностью запрещены внутри пешеходной зоны." },
             { ru: "небоскребы", en: "Skyscrapers", cat: "hometown", example: "The Manhattan sky is dominated by huge glass skyscrapers.", example_ru: "В небе Манхэттена преобладают огромные стеклянные небоскребы." },
-            { ru: "местные / локальные кафешки", en: "Local eateries", cat: "hometown", example: "Tourists love visiting cheap local eateries for authentic food.", example_ru: "Туристы любят посещать недорогие местные кафешки ради аутентичной еды." },
+            { ru: "местные / локальные кафешки", en: "Local eateries", cat: "hometown", example: "Tourists love visiting cheap local eateries for authentic food.", example_ru: "Tourists love visiting cheap local eateries for authentic food." },
             { ru: "удобно расположенный", en: "Nestled", cat: "hometown", example: "The town is nestled quietly between two green hills.", example_ru: "Город уютно устроился между двух зеленых холмов." },
             { ru: "быстро появляться", en: "spring up", cat: "hometown", example: "New coffee shops spring up everywhere these days.", example_ru: "В наши дни новые кофейни быстро появляются повсюду." },
             { ru: "добираться / ездить", en: "Commute", cat: "hometown", example: "My daily commute to the office takes forty minutes.", example_ru: "Моя ежедневная поездка на работу в офис занимает сорок минут." },
@@ -467,7 +501,7 @@
             { ru: "отдельно стоящая ванная", en: "Roll-top bath", cat: "house", example: "The luxury apartment features a vintage roll-top bath.", example_ru: "В роскошной квартире установлена винтажная отдельно стоящая ванная." },
             { ru: "отдельно стоящий частный дом", en: "Detached house", cat: "house", example: "They bought a detached house with a private garden loop.", example_ru: "Они купили отдельно стоящий частный дом с личным садом." },
             { ru: "дом, разделенный на две квартиры", en: "Semi-detached house", cat: "house", example: "A semi-detached house shares only one wall with neighbors.", example_ru: "Дом, разделенный на две квартиры, имеет только одну общую стену с соседями." },
-            { ru: "дом ленточной застройки", en: "Terraced house", cat: "house", example: "Living in a terraced house is typical for British cities.", example_ru: "Жизнь в доме ленточной застройки (таунхаусе) типична для британских городов." },
+            { ru: "дом ленточной застройки", en: "Terraced house", cat: "house", example: "Living in a terraced house is typical for British cities.", example_ru: "Жинь в доме ленточной застройки (таунхаусе) типична для британских городов." },
             { ru: "коттедж", en: "Cottage", cat: "house", example: "They spend their summer holidays in a countryside cottage.", example_ru: "Они проводят летние каникулы в загородном коттедже." },
             { ru: "однокомнатная квартира-студия", en: "Studio flat", cat: "house", example: "As a student, renting a compact studio flat is perfect.", example_ru: "Для студента аренда компактной квартиры-студии подходит идеально." },
             { ru: "пентхаус", en: "Penthouse", cat: "house", example: "The penthouse offers a stunning panoramic view of the sky.", example_ru: "Пентхаус предлагает потрясающий панорамный вид на небо." },
@@ -575,7 +609,6 @@
             const cardDisplay = document.getElementById('card-display');
             const submitBtn = document.getElementById('submit-btn');
 
-            // Если ответ уже был показан и мы нажимаем кнопку "Дальше"
             if (isShowingAnswer) {
                 showNextCard();
                 return;
