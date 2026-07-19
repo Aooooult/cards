@@ -153,7 +153,8 @@
             margin-top: 15px;
             font-size: 1.1rem;
             font-weight: bold;
-            min-height: 50px;
+            min-height: 40px;
+            width: 100%;
         }
         .feedback.success { color: var(--success-color); }
         .feedback.error { color: var(--error-color); }
@@ -164,6 +165,30 @@
             color: #555;
             margin-top: 5px;
         }
+        
+        /* Стиль для блока с контекстным примером */
+        .context-example {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 4px;
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: normal;
+            color: #334155;
+            display: none;
+        }
+        .context-example strong {
+            color: #0f172a;
+        }
+        .context-example .translation {
+            display: block;
+            margin-top: 4px;
+            font-style: italic;
+            color: #64748b;
+        }
+
         .success-screen {
             display: flex;
             flex-direction: column;
@@ -208,6 +233,7 @@
             </div>
 
             <div id="feedback" class="feedback"></div>
+            <div id="context-example" class="context-example"></div>
         </div>
         
         <div id="success-box" class="success-screen" style="display: none;">
@@ -219,288 +245,266 @@
 
     <script>
         const allWords = [
-            // --- СЛОВА С ЛИСТОЧКОВ (Категория: People and relationships) ---
-            // Personality
-            { ru: "амбициозный", en: "ambitious", cat: "people_relationships" },
-            { ru: "тупой, грубый, резкий", en: "blunt", cat: "people_relationships" },
-            { ru: "весёлый", en: "good fun", cat: "people_relationships" },
-            { ru: "осуждающий", en: "judgemental", cat: "people_relationships" },
-            { ru: "любопытный, назоиливый", en: "nosy", cat: "people_relationships" },
-            { ru: "открытый, беспристрастный", en: "open-minded", cat: "people_relationships" },
-            { ru: "общительный, дружелюбный", en: "outgoing", cat: "people_relationships" },
-            { ru: "надёжный, достоверный", en: "reliable", cat: "people_relationships" },
-            { ru: "самоуверенный, уверенный в себе", en: "self-assured", cat: "people_relationships" },
-            { ru: "скупой, жадный", en: "stingy", cat: "people_relationships" },
-            { ru: "замкнутый", en: "reserved", cat: "people_relationships" },
-            { ru: "сдержанный", en: "reserved", cat: "people_relationships" },
-            { ru: "спокойный, лёгкий, добродушный", en: "easy-going", cat: "people_relationships" },
-            { ru: "внимательный к другим, заботливый", en: "considerate", cat: "people_relationships" },
-            { ru: "щедрый", en: "generous", cat: "people_relationships" },
-            { ru: "упрямый", en: "stubborn", cat: "people_relationships" },
-            { ru: "с чувством юмора", en: "humorous", cat: "people_relationships" },
+            // --- Категория: People and relationships ---
+            { ru: "амбициозный", en: "ambitious", cat: "people_relationships", example: "She is an ambitious lawyer who wants to become a partner.", example_ru: "Она амбициозный юрист, который хочет стать партнером." },
+            { ru: "тупой, грубый, резкий", en: "blunt", cat: "people_relationships", example: "To be blunt, your current plan will not work.", example_ru: "Если говорить резко, твой текущий план не сработает." },
+            { ru: "весёлый", en: "good fun", cat: "people_relationships", example: "Our new classmate is good fun to hang out with.", example_ru: "С нашим новым одноклассником весело проводить время." },
+            { ru: "осуждающий", en: "judgemental", cat: "people_relationships", example: "Try not to be so judgemental before you know the whole story.", example_ru: "Постарайся не быть таким осуждающим, пока не узнаешь всю историю." },
+            { ru: "любопытный, назоиливый", en: "nosy", cat: "people_relationships", example: "The nosy neighbor kept looking through our window.", example_ru: "Любопытный сосед постоянно заглядывал в наше окно." },
+            { ru: "открытый, беспристрастный", en: "open-minded", cat: "people_relationships", example: "Travel helps people become more open-minded.", example_ru: "Путешествия помогают людям стать более открытыми." },
+            { ru: "общительный, дружелюбный", en: "outgoing", cat: "people_relationships", example: "His outgoing personality makes it easy for him to find friends.", example_ru: "Его общительный характер позволяет ему легко находить друзей." },
+            { ru: "надёжный, достоверный", en: "reliable", cat: "people_relationships", example: "We need a reliable person to manage this project.", example_ru: "Нам нужен надёжный человек для руководства этим проектом." },
+            { ru: "самоуверенный, уверенный в себе", en: "self-assured", cat: "people_relationships", example: "She walked onto the stage looking calm and self-assured.", example_ru: "Она вышла на сцену, выглядя спокойной и уверенной в себе." },
+            { ru: "скупой, жадный", en: "stingy", cat: "people_relationships", example: "Don't be so stingy, leave a proper tip for the waiter.", example_ru: "Не будь таким скупым, оставь нормальные чаевые официанту." },
+            { ru: "замкнутый / сдержанный", en: "reserved", cat: "people_relationships", example: "He is a reserved man who rarely shares his feelings.", example_ru: "Он замкнутый человек, который редко делится своими чувствами." },
+            { ru: "спокойный, лёгкий, добродушный", en: "easy-going", cat: "people_relationships", example: "I love my easy-going boss because he never stresses us out.", example_ru: "Я обожаю своего спокойного начальника, потому что он никогда не треплет нам нервы." },
+            { ru: "внимательный к другим, заботливый", en: "considerate", cat: "people_relationships", example: "It was very considerate of you to bring me coffee.", example_ru: "Это было очень заботливо с твоей стороны — принести мне кофе." },
+            { ru: "щедрый", en: "generous", cat: "people_relationships", example: "He made a generous donation to the local charity.", example_ru: "Он сделал щедрое пожертвование местной благотворительной организации." },
+            { ru: "упрямый", en: "stubborn", cat: "people_relationships", example: "She is too stubborn to admit that she made a mistake.", example_ru: "Она слишком упряма, чтобы признать, что совершила ошибку." },
+            { ru: "с чувством юмора", en: "humorous", cat: "people_relationships", example: "The teacher shared a humorous story to start the lesson.", example_ru: "Учитель рассказал юмористическую историю, чтобы начать урок." },
+            { ru: "дружная семья", en: "close-knit family", cat: "people_relationships", example: "They are a close-knit family who always help each other.", example_ru: "Они — дружная семья, которая всегда помогает друг другу." },
+            { ru: "ближайшая семья", en: "immediate family", cat: "people_relationships", example: "Only immediate family members were invited to the small wedding.", example_ru: "На скромную свадьбу были приглашены только члены ближайшей семьи." },
+            { ru: "дальние родственники", en: "extended family", cat: "people_relationships", example: "During Christmas, our extended family gathers at our grandparents' house.", example_ru: "На Рождество все наши дальние родственники собираются в доме бабушки и дедушки." },
+            { ru: "воспитание", en: "upbringing", cat: "people_relationships", example: "Her polite manners are a result of her good upbringing.", example_ru: "Ее вежливые манеры — результат хорошего воспитания." },
+            { ru: "ладить", en: "get on with somebody", cat: "people_relationships", example: "Do you get on with your new flatmate?", example_ru: "Ты ладишь со своим новым соседом по квартире?" },
+            { ru: "равняться на, восхищаться", en: "look up to somebody", cat: "people_relationships", example: "Children often look up to their parents as role models.", example_ru: "Дети часто равняются на своих родителей как на образец для подражания." },
+            { ru: "поддерживать связь с", en: "be in touch with somebody", cat: "people_relationships", example: "We still keep in touch with our school friends.", example_ru: "Мы до сих пор поддерживаем связь со школьными друзьями." },
+            { ru: "ссориться с", en: "fall out with somebody", cat: "people_relationships", example: "I don't want to fall out with you over money.", example_ru: "Я не хочу ссориться с тобой из-за денег." },
+            { ru: "постепенно отдаляться друг от друга", en: "grow apart from somebody", cat: "people_relationships", example: "After university, we began to grow apart from each other.", example_ru: "После университета мы начали постепенно отдаляться друг от друга." },
+            { ru: "пойти по стопам, следовать", en: "take after somebody", cat: "people_relationships", example: "He decided to take after his father and become a doctor.", example_ru: "Он решил пойти по стопам отца и стать врачом." },
+            { ru: "вырасти вместе", en: "grow up together", cat: "people_relationships", example: "We grew up together in the same small neighborhood.", example_ru: "Мы выросли вместе в одном небольшом районе." },
+            { ru: "быть близким к кому-то", en: "be close to somebody", cat: "people_relationships", example: "I am very close to my sister; I tell her everything.", example_ru: "Я очень близок со своей сестрой, я рассказываю ей всё." },
+            { ru: "хорошо ладить с кем-то", en: "get along well with somebody", cat: "people_relationships", example: "It is important to get along well with your coworkers.", example_ru: "Важно хорошо ладить со своими коллегами." },
+            { ru: "иметь крепкую связь", en: "have a strong bond", cat: "people_relationships", example: "The twin brothers have a strong bond between them.", example_ru: "Между братьями-близнецами есть крепкая связь." },
+            { ru: "иметь хорошие отношения", en: "have a good relationship", cat: "people_relationships", example: "They have a good relationship despite some minor disagreements.", example_ru: "У них хорошие отношения, несмотря на некоторые мелкие разногласия." },
+            { ru: "сходиться во взглядах на", en: "see eye to eye on smth", cat: "people_relationships", example: "My parents don't always see eye to eye on politics.", example_ru: "Мои родители не всегда сходятся во взглядах на политику." },
+            { ru: "иметь много общего", en: "have a lot in common", cat: "people_relationships", example: "We have a lot in common, including a love for classical music.", example_ru: "У нас много общего, включая любовь к классической музыке." },
+            { ru: "встретиться и обменяться новостями", en: "catch up", cat: "people_relationships", example: "Let's have a coffee this weekend and catch up.", example_ru: "Давай попьем кофе на этих выходных и обменяемся новостями." },
+            { ru: "иметь схожие интересы", en: "share similar interests", cat: "people_relationships", example: "Couples who share similar interests usually stay together longer.", example_ru: "Пары, которые имеют схожие интересы, обычно остаются вместе дольше." },
+            { ru: "друг на всю жизнь", en: "lifelong friend", cat: "people_relationships", example: "He has been my lifelong friend since our kindergarten days.", example_ru: "Он мой друг на всю жизнь, еще со времен детского сада." },
+            { ru: "друг детства", en: "childhood friend", cat: "people_relationships", example: "I saw my childhood friend yesterday after ten years.", example_ru: "Вчера я увидел своего друга детства спустя десять лет." },
+            { ru: "знакомый", en: "acquaintance", cat: "people_relationships", example: "She is not a close friend, just a business acquaintance.", example_ru: "Она не близкий друг, просто деловой знакомый." },
+            { ru: "круг общения", en: "social circle", cat: "people_relationships", example: "Joining a new sports club expanded his social circle.", example_ru: "Вступление в новый спортивный клуб расширило его круг общения." },
+            { ru: "быть рядом в трудную минуту", en: "be there for someone", cat: "people_relationships", example: "True friends will always be there for you when things get rough.", example_ru: "Настоящие друзья всегда будут рядом в трудную минуту, когда всё пойдет прахом." },
+            { ru: "полагаться на кого-то", en: "rely on someone", cat: "people_relationships", example: "You can always rely on her to keep your secrets.", example_ru: "Ты всегда можешь положиться на нее в том, что она сохранит твои секреты." },
+            { ru: "раскрывать лучшие качества человека", en: "bring out the best in someone", cat: "people_relationships", example: "A good teacher can bring out the best in any student.", example_ru: "Хороший учитель может раскрыть лучшие качества в любом ученике." },
+            { ru: "постепенно отдалиться друг от друга (d... a...)", en: "drift apart", cat: "people_relationships", example: "Over the years, the two friends began to drift apart.", example_ru: "С годами два друга начали постепенно отдаляться друг от друга." },
+            { ru: "таить обиду", en: "hold a grudge", cat: "people_relationships", example: "Life is too short to hold a grudge against anyone.", example_ru: "Жизнь слишком коротка, чтобы таить обиду на кого-либо." },
+            { ru: "быть в плохих отношениях", en: "be on bad terms", cat: "people_relationships", example: "He is currently on bad terms with his older brother.", example_ru: "В настоящее время он находится в плохих отношениях со своим старшим братом." },
+            { ru: "строить взаимное доверие", en: "build mutual trust", cat: "people_relationships", example: "It takes time and honesty to build mutual trust.", example_ru: "Требуется время и честность, чтобы построить взаимное доверие." },
+            { ru: "наладить хорошее общение", en: "establish good communication", cat: "people_relationships", example: "Teams must establish good communication to avoid errors.", example_ru: "Команды должны наладить хорошее общение, чтобы избежать ошибок." },
+            { ru: "бескорыстный", en: "selfless", cat: "people_relationships", example: "Volunteers perform selfless acts of kindness every day.", example_ru: "Волонтеры совершают бескорыстные поступки каждый день." },
+            { ru: "надежный (d...)", en: "dependable", cat: "people_relationships", example: "She is a dependable employee who never misses a deadline.", example_ru: "Она надежный сотрудник, который никогда не срывает сроки." },
+            { ru: "заслуживающий доверия", en: "trustworthy", cat: "people_relationships", example: "The manager needs a trustworthy assistant to handle financial files.", example_ru: "Менеджеру нужен заслуживающий доверия ассистент для работы с финансовыми файлами." },
+            { ru: "понимающий", en: "understanding", cat: "people_relationships", example: "Thank you for being so understanding about my situation.", example_ru: "Спасибо, что вы так понимающе отнеслись к моей ситуации." },
+            { ru: "поддерживать здоровые отношения", en: "maintain healthy relationships", cat: "people_relationships", example: "Communication is key to maintain healthy relationships.", example_ru: "Общение — это ключ к тому, чтобы поддерживать здоровые отношения." },
+            { ru: "решать конфликты мирно", en: "resolve conflicts peacefully", cat: "people_relationships", example: "Mediation can help both parties resolve conflicts peacefully.", example_ru: "Посредничество может помочь обеим сторонам решать конфликты мирно." },
+            { ru: "ценить друг друга", en: "appreciate one another", cat: "people_relationships", example: "In a marriage, it is crucial to appreciate one another daily.", example_ru: "В браке крайне важно ценить друг друга каждый день." },
 
-            // Family relationships
-            { ru: "дружная семья", en: "close-knit family", cat: "people_relationships" },
-            { ru: "ближайшая семья", en: "immediate family", cat: "people_relationships" },
-            { ru: "дальние родственники", en: "extended family", cat: "people_relationships" },
-            { ru: "воспитание", en: "upbringing", cat: "people_relationships" },
+            // --- Категория: Health ---
+            { ru: "личные расходы (не покрываемые страховкой)", en: "out-of-pocket expenses", cat: "health", example: "The insurance policy doesn't cover out-of-pocket expenses.", example_ru: "Страховой полис не покрывает личные расходы." },
+            { ru: "укреплять иммунную систему", en: "boost the immune system", cat: "health", example: "Eating fresh fruit helps to boost the immune system.", example_ru: "Употребление свежих фруктов помогает укреплять иммунную систему." },
+            { ru: "страдать хроническим заболеванием", en: "suffer from chronic illness", cat: "health", example: "Many elderly people suffer from chronic illness.", example_ru: "Многие пожилые люди страдают хроническим заболеванием." },
+            { ru: "поддерживать здоровый образ жизни", en: "maintain a healthy lifestyle", cat: "health", example: "Regular exercise is essential to maintain a healthy lifestyle.", example_ru: "Регулярные упражнения необходимы, чтобы поддерживать здоровый образ жизни." },
+            { ru: "вести активный / сидячий образ жизни", en: "lead an active / sedentary lifestyle", cat: "health", example: "Office workers often lead a active / sedentary lifestyle.", example_ru: "Офисные работники часто ведут активный / сидячий образ жизни." },
+            { ru: "пройти лечение", en: "undergo medical treatment", cat: "health", example: "He had to undergo medical treatment after the accident.", example_ru: "Ему пришлось пройти медицинское лечение после аварии." },
+            { ru: "гигиена", en: "hygiene", cat: "health", example: "Good oral hygiene prevents dental cavities.", example_ru: "Хорошая гигиена полости рта предотвращает кариес." },
+            { ru: "выздоровление", en: "recovery", cat: "health", example: "We wish you a very speedy recovery.", example_ru: "Мы желаем вам самого быстрого выздоровления." },
+            { ru: "малоподвижный образ жизни", en: "sedentary lifestyle", cat: "health", example: "A sedentary lifestyle increases the risk of heart disease.", example_ru: "Малоподвижный образ жизни увеличивает риск сердечных заболеваний." },
+            { ru: "активный образ жизни", en: "active lifestyle", cat: "health", example: "An active lifestyle can improve your physical fitness.", example_ru: "Активный образ жизни может улучшить вашу физическую форму." },
+            { ru: "пищевые привычки", en: "dietary habits", cat: "health", example: "Changing your dietary habits can improve your energy levels.", example_ru: "Изменение ваших пищевых привычек может повысить уровень энергии." },
+            { ru: "полуфабрикаты / обработанная пища", en: "processed food", cat: "health", example: "Try to avoid processed food containing too much salt.", example_ru: "Старайтесь избегать обработанной пищи, содержащей слишком много соли." },
+            { ru: "сократить потребление сахара", en: "cut down on sugar", cat: "health", example: "The doctor advised me to cut down on sugar.", example_ru: "Врач посоветовал мне сократить потребление сахара." },
+            { ru: "укреплять иммунитет / сопротивляемость", en: "build up resistance", cat: "health", example: "Vitamin C helps to build up resistance to colds.", example_ru: "Витамин C помогает укреплять иммунитет к простудам." },
+            { ru: "ожирение", en: "obesity", cat: "health", example: "Childhood obesity is a growing global health problem.", example_ru: "Детское ожирение является растущей мировой проблемой здравоохранения." },
+            { ru: "хроническое заболевание", en: "chronic disease", cat: "health", example: "Diabetes is classified as a chronic disease.", example_ru: "Диабет классифицируется как хроническое заболевание." },
+            { ru: "психическое здоровье / благополучие", en: "mental health", cat: "health", example: "Meditation can have positive effects on mental health.", example_ru: "Медитация может оказать положительное влияние на психическое здоровье." },
+            { ru: "расстройство пищевого поведения", en: "eating disorder", cat: "health", example: "Anorexia is a severe mental health eating disorder.", example_ru: "Анорексия — это тяжелое психическое расстройство пищевого поведения." },
+            { ru: "хроническое недосыпание", en: "sleep deprivation", cat: "health", example: "Chronic sleep deprivation impacts cognitive performance.", example_ru: "Хроническое недосыпание влияет на когнитивные способности." },
+            { ru: "быть склонным к чему-то", en: "be prone to smth", cat: "health", example: "Some people are genetically prone to weight gain.", example_ru: "Некоторые люди генетически склонны к набору веса." },
+            { ru: "профилактическая медицина", en: "preventative medicine", cat: "health", example: "Vaccines are an essential tool in preventative medicine.", example_ru: "Вакцины — важнейший инструмент в профилактической медицине." },
+            { ru: "система здравоохранения", en: "healthcare system", cat: "health", example: "The pandemic put a huge strain on the healthcare system.", example_ru: "Пандемия нанесла огромный удар по системе здравоохранения." },
+            { ru: "медицинское лечение", en: "medical treatment", cat: "health", example: "Cancer patients require specialized medical treatment.", example_ru: "Больным раком требуется специализированное медицинское лечение." },
+            { ru: "продолжительность жизни", en: "life expectancy", cat: "health", example: "Life expectancy has increased due to better hygiene.", example_ru: "Продолжительность жизни увеличилась благодаря улучшению гигиены." },
+            { ru: "негативно сказываться на здоровье", en: "take a toll on health", cat: "health", example: "Working night shifts can take a toll on health.", example_ru: "Работа в ночные смены может негативно сказываться на здоровье." },
+            { ru: "яркий пример", en: "a prime example", cat: "health", example: "This hospital is a prime example of high-quality healthcare.", example_ru: "Эта больница — яркий пример качественного здравоохранения." },
+            { ru: "неважно себя чувствовать", en: "be under the weather", cat: "health", example: "I stayed home today because I was under the weather.", example_ru: "Я остался сегодня дома, потому что неважно себя чувствовал." },
+            { ru: "терапевт, врач", en: "physician", cat: "health", example: "Consult a qualified physician before starting a new diet.", example_ru: "Проконсультируйтесь с квалифицированным врачом перед началом новой диеты." },
+            { ru: "хирург", en: "surgeon", cat: "health", example: "The surgeon successfully completed the heart bypass.", example_ru: "Хирург успешно выполнил шунтирование сердца." },
+            { ru: "врач узкого профиля", en: "specialist", cat: "health", example: "The clinic referred me to an eye specialist.", example_ru: "Клиника направила меня к врачу узкого профиля (офтальмологу)." },
+            { ru: "медицинский работник", en: "healthcare worker", cat: "health", example: "Every healthcare worker deserves fair working conditions.", example_ru: "Каждый медицинский работник заслуживает справедливых условий труда." },
+            { ru: "страховая компания, страховщик", en: "insurer", cat: "health", example: "You should notify your insurer about the accident.", example_ru: "Вам следует уведомить вашу страховую компанию об аварии." },
+            { ru: "медицинское учреждение", en: "healthcare facility", cat: "health", example: "The local village lacks a proper healthcare facility.", example_ru: "В местной деревне отсутствует надлежащее медицинское учреждение." },
+            { ru: "болезнь (i...)", en: "illness", cat: "health", example: "He missed three days of work due to a sudden illness.", example_ru: "Он пропустил три дня работы из-за внезапной болезни." },
+            { ru: "заболевание (d...)", en: "disease", cat: "health", example: "Prevention is better than treating a critical disease.", example_ru: "Профилактика лучше, чем лечение опасного заболевания." },
+            { ru: "инвалидность", en: "disability", cat: "health", example: "The building has special ramps for people with a disability.", example_ru: "В здании установлены специальные пандусы для людей с инвалидностью." },
+            { ru: "тревожность", en: "anxiety", cat: "health", example: "Exam stress can cause severe performance anxiety.", example_ru: "Экзаменационный стресс может вызвать сильную тревожность." },
+            { ru: "сбалансированное питание", en: "balanced diet", cat: "health", example: "A balanced diet provides all necessary vitamins.", example_ru: "Сбалансированное питание обеспечивает всеми необходимыми витаминами." },
+            { ru: "хорошая физическая форма", en: "physical fitness", cat: "health", example: "Running daily improves your overall physical fitness.", example_ru: "Ежедневный бег улучшает вашу общую физическую форму." },
+            { ru: "управление стрессом", en: "stress management", cat: "health", example: "Yoga is an excellent tool for stress management.", example_ru: "Йога — отличный инструмент для управления стрессом." },
+            { ru: "рецепт (на лекарство)", en: "prescription", cat: "health", example: "Antibiotics are only sold with a doctor's prescription.", example_ru: "Антибиотики продаются только по рецепту врача." },
+            { ru: "вакцинация", en: "vaccination", cat: "health", example: "Mass vaccination helped eliminate dangerous viruses.", example_ru: "Массовая вакцинация помогла уничтожить опасные вирусы." },
+            { ru: "медицинский осмотр", en: "health check-up", cat: "health", example: "An annual health check-up can catch problems early.", example_ru: "Ежегодный медицинский осмотр может выявить проблемы на ранней стадии." },
+            { ru: "страховой полис", en: "insurance policy", cat: "health", example: "Please read the terms of your health insurance policy.", example_ru: "Пожалуйста, ознакомьтесь с условиями вашего полиса медицинского страхования." },
+            { ru: "медицинские расходы", en: "medical expenses", cat: "health", example: "Save your receipts to claim your medical expenses later.", example_ru: "Сохраняйте чеки, чтобы позже заявить свои медицинские расходы." },
+            { ru: "расходы на здравоохранение (h... e...)", en: "healthcare expenditures", cat: "health", example: "National healthcare expenditures continue to rise globally.", example_ru: "Государственные расходы на здравоохранение продолжают расти по всему миру." },
+            { ru: "оформить медицинскую страховку", en: "purchase health insurance", cat: "health", example: "It's vital to purchase health insurance before traveling.", example_ru: "Крайне важно оформить медицинскую страховку перед путешествием." },
 
-            // Relationship phrases
-            { ru: "ладить", en: "get on with somebody", cat: "people_relationships" },
-            { ru: "равняться на, восхищаться", en: "look up to somebody", cat: "people_relationships" },
-            { ru: "поддерживать связь с", en: "be in touch with somebody", cat: "people_relationships" },
-            { ru: "ссориться с", en: "fall out with somebody", cat: "people_relationships" },
-            { ru: "постепенно отдаляться друг от друга", en: "grow apart from somebody", cat: "people_relationships" },
-            { ru: "пойти по стопам, следовать", en: "take after somebody", cat: "people_relationships" },
-            { ru: "вырасти вместе", en: "grow up together", cat: "people_relationships" },
-            { ru: "быть близким к кому-то", en: "be close to somebody", cat: "people_relationships" },
-            { ru: "хорошо ладить с кем-то", en: "get along well with somebody", cat: "people_relationships" },
-            { ru: "иметь крепкую связь", en: "have a strong bond", cat: "people_relationships" },
-            { ru: "иметь хорошие отношения", en: "have a good relationship", cat: "people_relationships" },
-            { ru: "сходиться во взглядах на", en: "see eye to eye on smth", cat: "people_relationships" },
-            { ru: "иметь много общего", en: "have a lot in common", cat: "people_relationships" },
-            { ru: "встретиться и обменяться новостями", en: "catch up", cat: "people_relationships" },
-            { ru: "иметь схожие интересы", en: "share similar interests", cat: "people_relationships" },
+            // --- Категория: Environment ---
+            { ru: "естественная среда обитания", en: "Habitat", cat: "environment", example: "The jungle is the natural habitat of the tiger.", example_ru: "Джунгли — естественная среда обитания тигра." },
+            { ru: "млекопитающие", en: "Mammals", cat: "environment", example: "Whales and dolphins are marine mammals, not fish.", example_ru: "Киты и дельфины — морские млекопитающие, а не рыбы." },
+            { ru: "почва", en: "Soil", cat: "environment", example: "Plants need rich soil and rainwater to grow well.", example_ru: "Растениям нужна богатая почва и дождевая вода для хорошего роста." },
+            { ru: "плодородная почва / эрозия почвы", en: "Fertile soil / Soil erosion", cat: "environment", example: "Heavy rain can cause severe soil erosion on fields.", example_ru: "Сильный дождь может вызвать серьезную эрозию почвы на полях." },
+            { ru: "дикая природа", en: "Wildlife", cat: "environment", example: "The national park protects local forest wildlife.", example_ru: "Национальный парк защищает местную лесную дикую природу." },
+            { ru: "флора и фауна", en: "Flora and fauna", cat: "environment", example: "The desert has a unique variety of flora and fauna.", example_ru: "В пустыне водится уникальное разнообразие флоры и фауны." },
+            { ru: "ландшафт", en: "Landscape", cat: "environment", example: "The volcanic landscape looked like the surface of the Moon.", example_ru: "Вулканический ландшафт выглядел как поверхность Луны." },
+            { ru: "охрана природы", en: "Conservation", cat: "environment", example: "Wildlife conservation programs save endangered tigers.", example_ru: "Программы охраны природы спасают исчезающих тигров." },
+            { ru: "сохранение", en: "Preservation", cat: "environment", example: "The preservation of historic structures costs a lot of money.", example_ru: "Сохранение исторических памятников стоит больших денег." },
+            { ru: "устойчивое развитие", en: "Sustainability", cat: "environment", example: "Ecologists advocate for ecological sustainability in production.", example_ru: "Экологи выступают за экологическое устойчивое развитие в производстве." },
+            { ru: "загрязнение", en: "Contamination", cat: "environment", example: "Chemical leak led to toxic contamination of the river water.", example_ru: "Утечка химикатов привела к токсичному загрязнению речной воды." },
+            { ru: "токсичные отходы", en: "Toxic waste", cat: "environment", example: "The factory was heavily fined for dumping toxic waste.", example_ru: "Завод был оштрафован на крупную сумму за сброс токсичных отходов." },
+            { ru: "индустриальные отходы", en: "Industrial waste", cat: "environment", example: "Industrial waste must be treated before disposal.", example_ru: "Индустриальные отходы должны проходить очистку перед утилизацией." },
+            { ru: "сточные воды", en: "Sewage", cat: "environment", example: "Raw sewage should never be pumped straight into the ocean.", example_ru: "Неочищенные сточные воды никогда не должны сбрасываться прямо в океан." },
+            { ru: "химикаты", en: "Chemicals", cat: "environment", example: "Farmers shouldn't use harmful chemicals on crops.", example_ru: "Фермерам не стоит использовать опасные химикаты на посевах." },
+            { ru: "выбросы", en: "Emissions", cat: "environment", example: "New laws aim to reduce greenhouse gas emissions.", example_ru: "Новые законы направлены на снижение выбросов парниковых газов." },
+            { ru: "выхлопные газы", en: "Exhaust fumes", cat: "environment", example: "City streets are heavily choked by vehicle exhaust fumes.", example_ru: "Городские улицы сильно перегружены автомобильными выхлопными газами." },
+            { ru: "загрязняющие вещества", en: "Pollutants", cat: "environment", example: "Industrial pollutants poison the city air supply.", example_ru: "Индустриальные загрязняющие вещества отравляют городской воздух." },
+            { ru: "свалка", en: "Landfill", cat: "environment", example: "Too much plastic trash ends up rotting in a landfill.", example_ru: "Слишком много пластикового мусора оказывается на свалке." },
+            { ru: "мусор", en: "Litter", cat: "environment", example: "Please pick up your litter after the picnic.", example_ru: "Пожалуйста, соберите ваш мусор после пикника." },
+            { ru: "сброс отходов", en: "Dumping", cat: "environment", example: "Illegal dumping of plastic harms marine biodiversity.", example_ru: "Незаконный сброс отходов из пластика вредит морскому биоразнообразию." },
+            { ru: "глобальное потепление", en: "Global warming", cat: "environment", example: "Global warming is causing Arctic sea ice to melt rapidly.", example_ru: "Глобальное потепление приводит к быстрому таянию арктических льдов." },
+            { ru: "парниковый эффект / газы", en: "Greenhouse effect / gases", cat: "environment", example: "Carbon dioxide is one of the primary greenhouse gases.", example_ru: "Углекислый газ является одним из основных парниковых газов." },
+            { ru: "углекислый газ (CO2)", en: "Carbon dioxide", cat: "environment", example: "Trees absorb carbon dioxide and release pure oxygen.", example_ru: "Деревья поглощают углекислый газ и выделяют чистый кислород." },
+            { ru: "метан", en: "Methane", cat: "environment", example: "Methane gas is released from agricultural cattle farming.", example_ru: "Газ метан выделяется в процессе животноводства." },
+            { ru: "засуха", en: "Drought", cat: "environment", example: "The severe summer drought destroyed the wheat harvest.", example_ru: "Сильная летняя засуха уничтожила урожай пшеницы." },
+            { ru: "наводнение", en: "Flood", cat: "environment", example: "Heavy monsoon rains caused a devastating flood.", example_ru: "Сильные муссонные дожди вызвали разрушительное наводнение." },
+            { ru: "ураган", en: "Hurricane", cat: "environment", example: "The coastal area was fully evacuated before the hurricane hit.", example_ru: "Прибрежная зона была полностью эвакуирована до того, как ударил ураган." },
+            { ru: "лесной пожар", en: "Wildfire", cat: "environment", example: "The intense summer wildfire burned down vast forest lands.", example_ru: "Сильный летний лесной пожар уничтожил обширные лесные массивы." },
+            { ru: "тающие ледники", en: "Melting glaciers", cat: "environment", example: "Melting glaciers lead to a steady rise in ocean levels.", example_ru: "Тающие ледники приводят к неуклонному росту уровня океана." },
+            { ru: "многоразовый", en: "Reusable", cat: "environment", example: "I always bring a reusable shopping bag to the supermarket.", example_ru: "Я всегда беру многоразовую сумку для покупок в супермаркет." },
+            { ru: "биоразлагаемый", en: "Biodegradable", cat: "environment", example: "Paper bags are biodegradable, unlike plastic single-use ones.", example_ru: "Бумажные пакеты биоразлагаемы, в отличие от пластиковых одноразовых." },
+            { ru: "сортировать мусор", en: "Sort waste", cat: "environment", example: "Citizens are highly encouraged to sort waste carefully.", example_ru: "Граждан активно призывают внимательно сортировать мусор." },
+            { ru: "контейнер для сортировки", en: "Recycling bin", cat: "environment", example: "Throw that empty glass bottle into the green recycling bin.", example_ru: "Брось эту пустую стеклянную бутылку в зеленый контейнер для сортировки." },
+            { ru: "одноразовый", en: "Disposable", cat: "environment", example: "Fast food cafes use disposable paper cups.", example_ru: "Кафе быстрого питания используют одноразовые бумажные стаканчики." },
+            { ru: "упаковка", en: "Packaging", cat: "environment", example: "Eco-friendly brands use minimal cardboard packaging.", example_ru: "Экологичные бренды используют минимум картонной упаковки." },
+            { ru: "одноразовый пластик", en: "Single-use plastic", cat: "environment", example: "Many countries have banned single-use plastic straws entirely.", example_ru: "Многие страны полностью запретили одноразовые пластиковые трубочки." },
+            { ru: "возобновляемая энергия", en: "Renewable energy", cat: "environment", example: "Investment in renewable energy reduces dependence on oil.", example_ru: "Инвестиции в возобновляемую энергию снижают зависимость от нефти." },
+            { ru: "солнечная / ветровая / гидроэлектрическая / геотермальная / ядерная энергия", en: "Solar / wind / hydroelectric / geothermal / nuclear power", cat: "environment", example: "The region generates most electricity using clean wind power.", example_ru: "Регион вырабатывает большую часть электроэнергии с помощью чистой ветровой энергии." },
+            { ru: "энергоэффективный", en: "Energy-efficient", cat: "environment", example: "We upgraded our home with energy-efficient appliances.", example_ru: "Мы обустроили наш дом энергоэффективной бытовой техникой." },
+            { ru: "энергосберегающий", en: "Energy-saving", cat: "environment", example: "Switch to energy-saving light bulbs to reduce electric bills.", example_ru: "Перейдите на энергосберегающие лампочки, чтобы снизить счета за электричество." },
+            { ru: "электростанция", en: "Power plant", cat: "environment", example: "The old coal power plant was completely shut down.", example_ru: "Старая угольная электростанция была полностью закрыта." },
+            { ru: "солнечные панели", en: "Solar panels", cat: "environment", example: "Installing solar panels on the roof cuts electric costs.", example_ru: "Установка солнечных панелей на крыше снижает расходы на электричество." },
+            { ru: "вырубка лесов", en: "Deforestation", cat: "environment", example: "Deforestation threatens the survival of local wildlife.", example_ru: "Вырубка лесов угрожает выживанию местной дикой природы." },
+            { ru: "опустынивание", en: "Desertification", cat: "environment", example: "Overfarming accelerates the process of desertification.", example_ru: "Чрезмерное земледелие ускоряет процесс опустынивания." },
+            { ru: "перенаселение", en: "Overpopulation", cat: "environment", example: "Overpopulation strains global water and food resources.", example_ru: "Перенаселение истощает мировые водные и пищевые ресурсы." },
+            { ru: "вымирание", en: "Extinction", cat: "environment", example: "Climate changes can lead many polar species to extinction.", example_ru: "Изменения климата могут привести многие полярные виды к вымиранию." },
+            { ru: "исчезающие виды", en: "Endangered species", cat: "environment", example: "The blue whale is officially listed as an endangered species.", example_ru: "Синий кит официально занесен в список исчезающих видов." },
+            { ru: "уничтожение среды обитания", en: "Habitat destruction", cat: "environment", example: "Urban growth drives massive habitat destruction in forests.", example_ru: "Рост городов ведет к массовому уничтожению среды обитания в лесах." },
+            { ru: "браконьерство", en: "Poaching", cat: "environment", example: "Poaching has caused elephant populations to drop severely.", example_ru: "Браконьерство привело к резкому сокращению популяции слонов." },
+            { ru: "разлив нефти", en: "Oil spill", cat: "environment", example: "The accidental oil spill polluted miles of ocean coast.", example_ru: "Случайный разлив нефти загрязнил мили океанского побережья." },
+            { ru: "нехватка воды", en: "Water scarcity", cat: "environment", example: "Millions of people live in regions with water scarcity.", example_ru: "Миллионы людей живут в регионах с нехваткой воды." },
+            { ru: "повышать осведомленность", en: "Raise awareness", cat: "environment", example: "Schools host events to raise awareness about eco problems.", example_ru: "Школы проводят мероприятия, чтобы повысить осведомленность об экопроблемах." },
+            { ru: "экологически сознательный", en: "Environmentally conscious", cat: "environment", example: "More environmentally conscious consumers buy organic items.", example_ru: "Всё больше экологически сознательных потребителей покупают органические товары." },
+            { ru: "сберегать", en: "conserve", cat: "environment", example: "We must try harder to conserve natural fresh water.", example_ru: "Мы должны усерднее стараться сберегать природную пресную воду." },
+            { ru: "решать (экологические проблемы)", en: "tackle", cat: "environment", example: "Governments need to tackle air contamination together.", example_ru: "Правительствам необходимо решать проблему загрязнения воздуха вместе." },
+            { ru: "сохранять (биоразнообразие)", en: "preserve", cat: "environment", example: "National parks help to preserve global biodiversity.", example_ru: "Национальные парки помогают сохранять мировое биоразнообразие." },
+            { ru: "перерабатывать бытовые отходы", en: "recycle household waste", cat: "environment", example: "We try to recycle household waste like glass and paper.", example_ru: "Мы стараемся перерабатывать бытовые отходы, такие как стекло и бумага." },
+            { ru: "перейти на зеленый образ жизни", en: "adopt green lifestyle", cat: "environment", example: "They chose to adopt green lifestyle by cycling to work.", example_ru: "Они решили перейти на зеленый образ жизни, добираясь на работу на велосипеде." },
+            { ru: "быть экологически осознанным", en: "be environmentally conscious", cat: "environment", example: "Our company strives to be environmentally conscious in production.", example_ru: "Наша компания стремится быть экологически осознанной в производстве." },
+            { ru: "вносить свой вклад в экологию", en: "do one's bit for the environment", cat: "environment", example: "By sorting trash, you do your bit for the environment.", example_ru: "Сортируя мусор, вы вносите свой вклад в экологию." },
 
-            // Friendship
-            { ru: "друг на всю жизнь", en: "lifelong friend", cat: "people_relationships" },
-            { ru: "друг детства", en: "childhood friend", cat: "people_relationships" },
-            { ru: "знакомый", en: "acquaintance", cat: "people_relationships" },
-            { ru: "круг общения", en: "social circle", cat: "people_relationships" },
+            // --- Категория: My Hometown ---
+            { ru: "живописный, колоритный", en: "Picturesque", cat: "hometown", example: "The mountain village is very picturesque in winter.", example_ru: "Горная деревня очень живописна зимой." },
+            { ru: "живой, полный энергии", en: "Vibrant", cat: "hometown", example: "New York has a vibrant nightlife filled with music.", example_ru: "В Нью-Йорке живая ночная жизнь, наполненная музыкой." },
+            { ru: "причудливый, уютный, очаровательный старомодностью", en: "Quaint", cat: "hometown", example: "We stayed in a quaint cottage near the sea.", example_ru: "Мы остановились в уютном, очаровательном старомодном коттедже у моря." },
+            { ru: "многонациональный", en: "Cosmopolitan", cat: "hometown", example: "London is a cosmopolitan city with diverse cultures.", example_ru: "Лондон — многонациональный город с разнообразными культурами." },
+            { ru: "огромный, разросшийся", en: "Sprawling", cat: "hometown", example: "Tokyo is a sprawling metropolis that never ends.", example_ru: "Токио — огромный, разросшийся мегаполис, который никогда не кончается." },
+            { ru: "индустриальный", en: "Industrial", cat: "hometown", example: "The industrial zone is located away from residential areas.", example_ru: "Индустриальная зона расположена вдали от жилых районов." },
+            { ru: "запущенный, полуразрушенный", en: "Run-down", cat: "hometown", example: "The old theater looked run-down and needed repair.", example_ru: "Старый театр выглядел запущенным и нуждался в ремонте." },
+            { ru: "перегруженный транспортом, полный пробок", en: "Congested", cat: "hometown", example: "The city center roads are always congested at 6 PM.", example_ru: "Дороги в центре города всегда перегружены транспортом в 6 вечера." },
+            { ru: "застроенный", en: "Built-up", cat: "hometown", example: "This built-up district has very few green parks.", example_ru: "В этом застроенном районе очень мало зеленых парков." },
+            { ru: "монотонный, серый, унылый", en: "Monotonous", cat: "hometown", example: "The monotonous grey concrete blocks look depressed.", example_ru: "Монотонные серые бетонные кварталы выглядят уныло." },
+            { ru: "мегагород", en: "Megacity", cat: "hometown", example: "Shanghai has grown into a massive global megacity.", example_ru: "Шанхай вырос в масштабный мировой мегагород." },
+            { ru: "мегаполис", en: "Metropolis", cat: "hometown", example: "People move to the metropolis in search of career growth.", example_ru: "Люди переезжают в мегаполис в поисках карьерного роста." },
+            { ru: "прибрежный город", en: "Coastal town", cat: "hometown", example: "Living in a coastal town means beautiful summer views.", example_ru: "Жизнь в прибрежном городе означает прекрасные летние виды." },
+            { ru: "пригород", en: "Suburbs", cat: "hometown", example: "Families prefer raising children out in the safe suburbs.", example_ru: "Семьи предпочитают растить детей в безопасном пригороде." },
+            { ru: "окраина", en: "Outskirts", cat: "hometown", example: "The new factory was built on the outskirts of Moscow.", example_ru: "Новый завод был построен на окраине Москвы." },
+            { ru: "спальный район", en: "Residential area", cat: "hometown", example: "It is a quiet residential area with no noisy bars.", example_ru: "Это тихий спальный район без шумных баров." },
+            { ru: "центр", en: "Downtown", cat: "hometown", example: "Let's meet downtown near the historical museum.", example_ru: "Давай встретимся в центре около исторического музея." },
+            { ru: "гетто / внутренний город", en: "Inner city", cat: "hometown", example: "The inner city needs more funding for local schools.", example_ru: "Внутренний город (бедный район) нуждается в большем финансировании для местных школ." },
+            { ru: "достопримечательность", en: "Landmark", cat: "hometown", example: "The Eiffel Tower is the most famous landmark in France.", example_ru: "Эйфелева башня — самая известная достопримечательность Франции." },
+            { ru: "удобства (магазины, парки...)", en: "Facilities", cat: "hometown", example: "The sport complex has excellent gym facilities.", example_ru: "В спортивном комплексе есть отличные спортивные удобства (залы)." },
+            { ru: "зоны отдыха (парки, набережные)", en: "Recreational areas", cat: "hometown", example: "Riverside paths serve as fine recreational areas.", example_ru: "Набережные зоны служат отличными зонами отдыха." },
+            { ru: "пешеходная зона", en: "Pedestrian zone", cat: "hometown", example: "Cars are completely banned inside the pedestrian zone.", example_ru: "Машины полностью запрещены внутри пешеходной зоны." },
+            { ru: "небоскребы", en: "Skyscrapers", cat: "hometown", example: "The Manhattan sky is dominated by huge glass skyscrapers.", example_ru: "В небе Манхэттена преобладают огромные стеклянные небоскребы." },
+            { ru: "местные / локальные кафешки", en: "Local eateries", cat: "hometown", example: "Tourists love visiting cheap local eateries for authentic food.", example_ru: "Туристы любят посещать недорогие местные кафешки ради аутентичной еды." },
+            { ru: "удобно расположенный", en: "Nestled", cat: "hometown", example: "The town is nestled quietly between two green hills.", example_ru: "Город уютно устроился между двух зеленых холмов." },
+            { ru: "быстро появляться", en: "spring up", cat: "hometown", example: "New coffee shops spring up everywhere these days.", example_ru: "В наши дни новые кофейни быстро появляются повсюду." },
+            { ru: "добираться / ездить", en: "Commute", cat: "hometown", example: "My daily commute to the office takes forty minutes.", example_ru: "Моя ежедневная поездка на работу в офис занимает сорок минут." },
+            { ru: "темп жизни", en: "Pace of life", cat: "hometown", example: "The pace of life in villages is slow and relaxing.", example_ru: "Темп жизни в деревнях медленный и расслабляющий." },
+            { ru: "стоимость жизни", en: "Cost of living", cat: "hometown", example: "The cost of living in Switzerland is exceptionally high.", example_ru: "Стоимость жизни в Швейцарии исключительно высока." },
+            { ru: "динамичный", en: "Fast-paced", cat: "hometown", example: "It is hard to adapt to a fast-paced metropolitan lifestyle.", example_ru: "Трудно адаптироваться к динамичному образу жизни в мегаполисе." },
+            { ru: "густонаселенный", en: "Densely populated", cat: "hometown", example: "Monaco is one of the most densely populated nations.", example_ru: "Монако — одно из самых густонаселенных государств." },
 
-            // Phrases
-            { ru: "быть рядом в трудную минуту", en: "be there for someone", cat: "people_relationships" },
-            { ru: "полагаться на кого-то", en: "rely on someone", cat: "people_relationships" },
-            { ru: "раскрывать лучшие качества человека", en: "bring out the best in someone", cat: "people_relationships" },
-            { ru: "постепенно отдалиться друг от друга (d... a...)", en: "drift apart", cat: "people_relationships" },
-            { ru: "таить обиду", en: "hold a grudge", cat: "people_relationships" },
-            { ru: "быть в плохих отношениях", en: "be on bad terms", cat: "people_relationships" },
-            { ru: "строить взаимное доверие", en: "build mutual trust", cat: "people_relationships" },
-            { ru: "наладить хорошее общение", en: "establish good communication", cat: "people_relationships" },
-
-            // Personality + Ph
-            { ru: "бескорыстный", en: "selfless", cat: "people_relationships" },
-            { ru: "надежный (d...)", en: "dependable", cat: "people_relationships" },
-            { ru: "заслуживающий доверия", en: "trustworthy", cat: "people_relationships" },
-            { ru: "понимающий", en: "understanding", cat: "people_relationships" },
-            { ru: "поддерживать здоровые отношения", en: "maintain healthy relationships", cat: "people_relationships" },
-            { ru: "решать конфликты мирно", en: "resolve conflicts peacefully", cat: "people_relationships" },
-            { ru: "ценить друг друга", en: "appreciate one another", cat: "people_relationships" },
-
-            // --- СЛОВА ИЗ ПРОШЛОГО КОДА (Категория: Health) ---
-            { ru: "личные расходы (не покрываемые страховкой)", en: "out-of-pocket expenses", cat: "health" },
-            { ru: "укреплять иммунную систему", en: "boost the immune system", cat: "health" },
-            { ru: "страдать хроническим заболеванием", en: "suffer from chronic illness", cat: "health" },
-            { ru: "поддерживать здоровый образ жизни", en: "maintain a healthy lifestyle", cat: "health" },
-            { ru: "вести активный / сидячий образ жизни", en: "lead an active / sedentary lifestyle", cat: "health" },
-            { ru: "пройти лечение", en: "undergo medical treatment", cat: "health" },
-            { ru: "гигиена", en: "hygiene", cat: "health" },
-            { ru: "выздоровление", en: "recovery", cat: "health" },
-            
-            { ru: "малоподвижный образ жизни", en: "sedentary lifestyle", cat: "health" },
-            { ru: "активный образ жизни", en: "active lifestyle", cat: "health" },
-            { ru: "пищевые привычки", en: "dietary habits", cat: "health" },
-            { ru: "полуфабрикаты / обработанная пища", en: "processed food", cat: "health" },
-            { ru: "сократить потребление сахара", en: "to cut down on sugar", cat: "health" },
-            { ru: "укреплять иммунитет / сопротивляемость", en: "to build up resistance", cat: "health" },
-            
-            { ru: "ожирение", en: "obesity", cat: "health" },
-            { ru: "хроническое заболевание", en: "chronic disease", cat: "health" },
-            { ru: "психическое здоровье / благополучие", en: "mental health", cat: "health" },
-            { ru: "расстройство пищевого поведения", en: "eating disorder", cat: "health" },
-            { ru: "хроническое недосыпание", en: "sleep deprivation", cat: "health" },
-            { ru: "быть склонным к чему-то", en: "to be prone to smth", cat: "health" },
-            
-            { ru: "профилактическая медицина", en: "preventative medicine", cat: "health" },
-            { ru: "система здравоохранения", en: "healthcare system", cat: "health" },
-            { ru: "медицинское лечение", en: "medical treatment", cat: "health" },
-            { ru: "продолжительность жизни", en: "life expectancy", cat: "health" },
-            
-            { ru: "негативно сказываться на здоровье", en: "to take a toll on health", cat: "health" },
-            { ru: "яркий пример", en: "a prime example", cat: "health" },
-            { ru: "неважно себя чувствовать", en: "to be under the weather", cat: "health" },
-            
-            { ru: "терапевт, врач", en: "physician", cat: "health" },
-            { ru: "хирург", en: "surgeon", cat: "health" },
-            { ru: "врач узкого профиля", en: "specialist", cat: "health" },
-            { ru: "медицинский работник", en: "healthcare worker", cat: "health" },
-            { ru: "страховая компания, страховщик", en: "insurer", cat: "health" },
-            
-            { ru: "медицинское учреждение", en: "healthcare facility", cat: "health" },
-            
-            { ru: "болезнь (i...)", en: "illness", cat: "health" },
-            { ru: "заболевание (d...)", en: "disease", cat: "health" },
-            { ru: "инвалидность", en: "disability", cat: "health" },
-            { ru: "тревожность", en: "anxiety", cat: "health" },
-            
-            { ru: "сбалансированное питание", en: "balanced diet", cat: "health" },
-            { ru: "хорошая физическая форма", en: "physical fitness", cat: "health" },
-            { ru: "управление стрессом", en: "stress management", cat: "health" },
-            
-            { ru: "рецепт (на лекарство)", en: "prescription", cat: "health" },
-            { ru: "вакцинация", en: "vaccination", cat: "health" },
-            { ru: "медицинский осмотр", en: "health check-up", cat: "health" },
-            
-            { ru: "страховой полис", en: "insurance policy", cat: "health" },
-            { ru: "медицинские расходы", en: "medical expenses", cat: "health" },
-            { ru: "расходы на здравоохранение (h... e...)", en: "healthcare expenditures", cat: "health" },
-            { ru: "оформить медицинскую страховку", en: "purchase health insurance", cat: "health" },
-
-            // Environment
-            { ru: "естественная среда обитания", en: "Habitat", cat: "environment" },
-            { ru: "млекопитающие", en: "Mammals", cat: "environment" },
-            { ru: "почва", en: "Soil", cat: "environment" },
-            { ru: "плодородная почва / эрозия почвы", en: "Fertile soil / Soil erosion", cat: "environment" },
-            { ru: "дикая природа", en: "Wildlife", cat: "environment" },
-            { ru: "флора и фауна", en: "Flora and fauna", cat: "environment" },
-            { ru: "ландшафт", en: "Landscape", cat: "environment" },
-            { ru: "охрана природы", en: "Conservation", cat: "environment" },
-            { ru: "сохранение", en: "Preservation", cat: "environment" },
-            { ru: "устойчивое развитие", en: "Sustainability", cat: "environment" },
-            { ru: "загрязнение", en: "Contamination", cat: "environment" },
-            { ru: "токсичные отходы", en: "Toxic waste", cat: "environment" },
-            { ru: "индустриальные отходы", en: "Industrial waste", cat: "environment" },
-            { ru: "сточные воды", en: "Sewage", cat: "environment" },
-            { ru: "химикаты", en: "Chemicals", cat: "environment" },
-            { ru: "выбросы", en: "Emissions", cat: "environment" },
-            { ru: "выхлопные газы", en: "Exhaust fumes", cat: "environment" },
-            { ru: "загрязняющие вещества", en: "Pollutants", cat: "environment" },
-            { ru: "свалка", en: "Landfill", cat: "environment" },
-            { ru: "мусор", en: "Litter", cat: "environment" },
-            { ru: "сброс отходов", en: "Dumping", cat: "environment" },
-            { ru: "глобальное потепление", en: "Global warming", cat: "environment" },
-            { ru: "парниковый эффект / газы", en: "Greenhouse effect / gases", cat: "environment" },
-            { ru: "углекислый газ (CO2)", en: "Carbon dioxide", cat: "environment" },
-            { ru: "метан", en: "Methane", cat: "environment" },
-            { ru: "засуха", en: "Drought", cat: "environment" },
-            { ru: "наводнение", en: "Flood", cat: "environment" },
-            { ru: "ураган", en: "Hurricane", cat: "environment" },
-            { ru: "лесной пожар", en: "Wildfire", cat: "environment" },
-            { ru: "тающие ледники", en: "Melting glaciers", cat: "environment" },
-            { ru: "многоразовый", en: "Reusable", cat: "environment" },
-            { ru: "биоразлагаемый", en: "Biodegradable", cat: "environment" },
-            { ru: "сортировать мусор", en: "Sort waste", cat: "environment" },
-            { ru: "контейнер для сортировки", en: "Recycling bin", cat: "environment" },
-            { ru: "одноразовый", en: "Disposable", cat: "environment" },
-            { ru: "упаковка", en: "Packaging", cat: "environment" },
-            { ru: "одноразовый пластик", en: "Single-use plastic", cat: "environment" },
-            { ru: "возобновляемая энергия", en: "Renewable energy", cat: "environment" },
-            { ru: "солнечная / ветровая / гидроэлектрическая / геотермальная / ядерная энергия", en: "Solar / wind / hydroelectric / geothermal / nuclear power", cat: "environment" },
-            { ru: "энергоэффективный", en: "Energy-efficient", cat: "environment" },
-            { ru: "энергосберегающий", en: "Energy-saving", cat: "environment" },
-            { ru: "электростанция", en: "Power plant", cat: "environment" },
-            { ru: "солнечные панели", en: "Solar panels", cat: "environment" },
-            { ru: "вырубка лесов", en: "Deforestation", cat: "environment" },
-            { ru: "опустынивание", en: "Desertification", cat: "environment" },
-            { ru: "перенаселение", en: "Overpopulation", cat: "environment" },
-            { ru: "вымирание", en: "Extinction", cat: "environment" },
-            { ru: "исчезающие виды", en: "Endangered species", cat: "environment" },
-            { ru: "уничтожение среды обитания", en: "Habitat destruction", cat: "environment" },
-            { ru: "браконьерство", en: "Poaching", cat: "environment" },
-            { ru: "разлив нефти", en: "Oil spill", cat: "environment" },
-            { ru: "нехватка воды", en: "Water scarcity", cat: "environment" },
-            { ru: "повышать осведомленность", en: "Raise awareness", cat: "environment" },
-            { ru: "экологически сознательный", en: "Environmentally conscious", cat: "environment" },
-            { ru: "сберегать", en: "To conserve", cat: "environment" },
-            { ru: "решать (экологические проблемы)", en: "To tackle (environmental issues)", cat: "environment" },
-            { ru: "сохранять (биоразнообразие)", en: "To preserve (biodiversity)", cat: "environment" },
-            { ru: "перерабатывать бытовые отходы", en: "To recycle household waste", cat: "environment" },
-            { ru: "перейти на зеленый образ жизни", en: "To adopt green lifestyle", cat: "environment" },
-            { ru: "быть экологически осознанным", en: "To be environmentally conscious", cat: "environment" },
-            { ru: "вносить свой вклад в экологию", en: "To do one's bit for the environment", cat: "environment" },
-
-            // My Hometown
-            { ru: "живописный, колоритный", en: "Picturesque", cat: "hometown" },
-            { ru: "живой, полный энергии", en: "Vibrant", cat: "hometown" },
-            { ru: "причудливый, уютный, очаровательный старомодностью", en: "Quaint", cat: "hometown" },
-            { ru: "многонациональный", en: "Cosmopolitan", cat: "hometown" },
-            { ru: "огромный, разросшийся", en: "Sprawling", cat: "hometown" },
-            { ru: "индустриальный", en: "Industrial", cat: "hometown" },
-            { ru: "запущенный, полуразрушенный", en: "Run-down", cat: "hometown" },
-            { ru: "перегруженный транспортом, полный пробок", en: "Congested", cat: "hometown" },
-            { ru: "застроенный", en: "Built-up", cat: "hometown" },
-            { ru: "монотонный, серый, унылый", en: "Monotonous", cat: "hometown" },
-            { ru: "мегагород", en: "Megacity", cat: "hometown" },
-            { ru: "мегаполис", en: "Metropolis", cat: "hometown" },
-            { ru: "прибрежный город", en: "Coastal town", cat: "hometown" },
-            { ru: "пригород", en: "Suburbs", cat: "hometown" },
-            { ru: "окраина", en: "Outskirts", cat: "hometown" },
-            { ru: "спальный район", en: "Residential area", cat: "hometown" },
-            { ru: "центр", en: "Downtown", cat: "hometown" },
-            { ru: "гетто / внутренний город", en: "Inner city", cat: "hometown" },
-            { ru: "достопримечательность", en: "Landmark", cat: "hometown" },
-            { ru: "удобства (магазины, парки...)", en: "Facilities", cat: "hometown" },
-            { ru: "зоны отдыха (парки, набережные)", en: "Recreational areas", cat: "hometown" },
-            { ru: "пешеходная зона", en: "Pedestrian zone", cat: "hometown" },
-            { ru: "небоскребы", en: "Skyscrapers", cat: "hometown" },
-            { ru: "местные / локальные кафешки", en: "Local eateries", cat: "hometown" },
-            { ru: "удобно расположенный (Мой город уютно устроился между двух холмов)", en: "Nestled", cat: "hometown" },
-            { ru: "быстро появляться (Новые торговые центры растут повсюду)", en: "To spring up", cat: "hometown" },
-            { ru: "добираться / ездить", en: "Commute", cat: "hometown" },
-            { ru: "темп жизни", en: "Pace of life", cat: "hometown" },
-            { ru: "стоимость жизни", en: "Cost of living", cat: "hometown" },
-            { ru: "динамичный", en: "Fast-paced", cat: "hometown" },
-            { ru: "густонаселенный", en: "Densely populated", cat: "hometown" },
-
-            // My House / Accommodation
-            { ru: "диван", en: "Couch", cat: "house" },
-            { ru: "шкаф для одежды", en: "Wardrobe", cat: "house" },
-            { ru: "шкаф для посуды", en: "Cupboard", cat: "house" },
-            { ru: "комод с выдвижными ящиками", en: "Chest of drawers", cat: "house" },
-            { ru: "прикроватная тумбочка", en: "Bedside table", cat: "house" },
-            { ru: "пуфик", en: "Ottoman", cat: "house" },
-            { ru: "встроенный шкаф-купе", en: "Built-in wardrobe", cat: "house" },
-            { ru: "раскладной диван", en: "Sofa bed", cat: "house" },
-            { ru: "туалетный столик", en: "Dressing table", cat: "house" },
-            { ru: "духовка", en: "Oven", cat: "house" },
-            { ru: "плита", en: "Stove", cat: "house" },
-            { ru: "ковровое покрытие", en: "Carpet", cat: "house" },
-            { ru: "ковёр", en: "Rug", cat: "house" },
-            { ru: "подоконник", en: "Window sill", cat: "house" },
-            { ru: "шторы", en: "Curtains", cat: "house" },
-            { ru: "табурет", en: "Stool", cat: "house" },
-            { ru: "постельные принадлежности", en: "Bedding", cat: "house" },
-            { ru: "изголовье, спинка кровати", en: "Headboard", cat: "house" },
-            { ru: "отдельно стоящая ванная", en: "Roll-top bath", cat: "house" },
-            { ru: "отдельно стоящий частный дом", en: "Detached house", cat: "house" },
-            { ru: "дом, разделенный на две квартиры", en: "Semi-detached house", cat: "house" },
-            { ru: "дом ленточной застройки", en: "Terraced house", cat: "house" },
-            { ru: "коттедж", en: "Cottage", cat: "house" },
-            { ru: "однокомнатная квартира-студия", en: "Studio flat", cat: "house" },
-            { ru: "пентхаус", en: "Penthouse", cat: "house" },
-            { ru: "высотка", en: "Multi-story building", cat: "house" },
-            { ru: "элитное жилье", en: "High-end apartment", cat: "house" },
-            { ru: "одноэтажный дом с пологой крышей", en: "Bungalow", cat: "house" },
-            { ru: "в пригороде", en: "Suburbs", cat: "house" },
-            { ru: "жилой / спальный район", en: "Residential area", cat: "house" },
-            { ru: "центр города", en: "Downtown", cat: "house" },
-            { ru: "на окраине города", en: "Outskirts", cat: "house" },
-            { ru: "гостиная", en: "Living room / Lounge", cat: "house" },
-            { ru: "коридор / прихожая", en: "Hall / Hallway", cat: "house" },
-            { ru: "хозяйственная комната", en: "Utility room", cat: "house" },
-            { ru: "ванная, совмещенная со спальней", en: "En-suite bathroom", cat: "house" },
-            { ru: "чулан", en: "Box room", cat: "house" },
-            { ru: "мансардное окно", en: "Skylight", cat: "house" },
-            { ru: "планировка открытого типа (кухня-гостиная)", en: "Open-plan kitchen and living room", cat: "house" },
-            { ru: "просторный", en: "Spacious", cat: "house" },
-            { ru: "воздушный", en: "Airy", cat: "house" },
-            { ru: "уютный", en: "Cosy", cat: "house" },
-            { ru: "уютный, домашний", en: "Homely", cat: "house" },
-            { ru: "хорошо освещённый", en: "Well-lit", cat: "house" },
-            { ru: "тесный", en: "Cramped", cat: "house" },
-            { ru: "захламлённый", en: "Cluttered", cat: "house" },
-            { ru: "темный, мрачный", en: "Gloomy", cat: "house" },
-            { ru: "со сквозняками", en: "Drafty", cat: "house" },
-            { ru: "минималистичный", en: "Minimalist", cat: "house" },
-            { ru: "современный", en: "Contemporary / modern", cat: "house" },
-            { ru: "устаревший", en: "Dated", cat: "house" },
-            { ru: "полностью meблированный", en: "Fully-furnished", cat: "house" },
-            { ru: "владелец", en: "Owner", cat: "house" },
-            { ru: "арендодатель", en: "Landlord", cat: "house" },
-            { ru: "арендатор", en: "Tenant", cat: "house" },
-            { ru: "арендатор (через R)", en: "Renter", cat: "house" },
-            { ru: "жилец", en: "Lodger", cat: "house" },
-            { ru: "живет с питанием", en: "Boarder", cat: "house" }
+            // --- Категория: My House ---
+            { ru: "диван", en: "Couch", cat: "house", example: "We bought a comfortable leather couch for the hall.", example_ru: "Мы купили удобный кожаный диван для прихожей." },
+            { ru: "шкаф для одежды", en: "Wardrobe", cat: "house", example: "Hang your winter jacket inside the bedroom wardrobe.", example_ru: "Повесь свою зимнюю куртку в шкаф для одежды в спальне." },
+            { ru: "шкаф для посуды", en: "Cupboard", cat: "house", example: "The clean plates are stacked inside the kitchen cupboard.", example_ru: "Чистые тарелки сложены в кухонном шкафу для посуды." },
+            { ru: "комод с выдвижными ящиками", en: "Chest of drawers", cat: "house", example: "I keep my warm socks in the bottom chest of drawers.", example_ru: "Я храню теплые носки в самом нижнем ящике комода." },
+            { ru: "прикроватная тумбочка", en: "Bedside table", cat: "house", example: "He placed his smartphone and book on the bedside table.", example_ru: "Он положил свой смартфон и книгу на прикроватную тумбочку." },
+            { ru: "пуфик", en: "Ottoman", cat: "house", example: "You can rest your tired feet on that soft plush ottoman.", example_ru: "Ты можешь положить уставшие ноги на этот мягкий плюшевый пуфик." },
+            { ru: "встроенный шкаф-купе", en: "Built-in wardrobe", cat: "house", example: "A built-in wardrobe saves a lot of bedroom space.", example_ru: "Встроенный шкаф-купе экономит много места в спальне." },
+            { ru: "раскладной диван", en: "Sofa bed", cat: "house", example: "Our living room has a comfortable sofa bed for guests.", example_ru: "В нашей гостиной есть удобный раскладной диван для гостей." },
+            { ru: "туалетный столик", en: "Dressing table", cat: "house", example: "She sits at her dressing table to apply makeup.", example_ru: "Она садится за свой туалетный столик, чтобы нанести макияж." },
+            { ru: "духовка", en: "Oven", cat: "house", example: "Bake the apple pie in the preheated oven for one hour.", example_ru: "Выпекайте яблочный пирог в разогретой духовке один час." },
+            { ru: "плита", en: "Stove", cat: "house", example: "The soup is heating up on the electric kitchen stove.", example_ru: "Суп греется на электрической кухонной плите." },
+            { ru: "ковровое покрытие", en: "Carpet", cat: "house", example: "The bedroom floor is fitted with a soft grey carpet.", example_ru: "Пол в спальне застелен мягким серым ковровым покрытием." },
+            { ru: "ковёр", en: "Rug", cat: "house", example: "We placed a small woven rug near the front door entrance.", example_ru: "Мы положили маленький тканый ковёр у входа перед входной дверью." },
+            { ru: "подоконник", en: "Window sill", cat: "house", example: "She grows small green flower pots on her window sill.", example_ru: "Она выращивает маленькие зеленые цветы в горшках на подоконнике." },
+            { ru: "шторы", en: "Curtains", cat: "house", example: "Close the heavy curtains to block the morning sunlight.", example_ru: "Закрой плотные шторы, чтобы перекрыть утренний солнечный свет." },
+            { ru: "табурет", en: "Stool", cat: "house", example: "He sat on a high wooden bar stool to drink coffee.", example_ru: "Он сел на высокий деревянный барный табурет, чтобы попить кофе." },
+            { ru: "постельные принадлежности", en: "Bedding", cat: "house", example: "We need to wash the dirty linen bedding this weekend.", example_ru: "Нам нужно постирать грязные льняные постельные принадлежности на этих выходных." },
+            { ru: "изголовье, спинка кровати", en: "Headboard", cat: "house", example: "The bed features an elegant velvet upholstered headboard.", example_ru: "Кровать отличается элегантным изголовьем с бархатной обивкой." },
+            { ru: "отдельно стоящая ванная", en: "Roll-top bath", cat: "house", example: "The luxury apartment features a vintage roll-top bath.", example_ru: "В роскошной квартире установлена винтажная отдельно стоящая ванная." },
+            { ru: "отдельно стоящий частный дом", en: "Detached house", cat: "house", example: "They bought a detached house with a private garden loop.", example_ru: "Они купили отдельно стоящий частный дом с личным садом." },
+            { ru: "дом, разделенный на две квартиры", en: "Semi-detached house", cat: "house", example: "A semi-detached house shares only one wall with neighbors.", example_ru: "Дом, разделенный на две квартиры, имеет только одну общую стену с соседями." },
+            { ru: "дом ленточной застройки", en: "Terraced house", cat: "house", example: "Living in a terraced house is typical for British cities.", example_ru: "Жизнь в доме ленточной застройки (таунхаусе) типична для британских городов." },
+            { ru: "коттедж", en: "Cottage", cat: "house", example: "They spend their summer holidays in a countryside cottage.", example_ru: "Они проводят летние каникулы в загородном коттедже." },
+            { ru: "однокомнатная квартира-студия", en: "Studio flat", cat: "house", example: "As a student, renting a compact studio flat is perfect.", example_ru: "Для студента аренда компактной квартиры-студии подходит идеально." },
+            { ru: "пентхаус", en: "Penthouse", cat: "house", example: "The penthouse offers a stunning panoramic view of the sky.", example_ru: "Пентхаус предлагает потрясающий панорамный вид на небо." },
+            { ru: "высотка", en: "Multi-story building", cat: "house", example: "He lives on the tenth floor of a multi-story building.", example_ru: "Он живет на десятом этаже высотки." },
+            { ru: "элитное жилье", en: "High-end apartment", cat: "house", example: "This high-end apartment has smart home tech systems.", example_ru: "Это элитное жилье оснащено системами умного дома." },
+            { ru: "одноэтажный дом с пологой крышей", en: "Bungalow", cat: "house", example: "My elderly grandparents moved into a cosy single bungalow.", example_ru: "Мои пожилые бабушка и дедушка переехали в уютный одноэтажный дом." },
+            { ru: "в пригороде", en: "Suburbs", cat: "house", example: "It is much quieter to live out in the green suburbs.", example_ru: "Гораздо тише жить в зеленых пригородах." },
+            { ru: "жилой / спальный район", en: "Residential area", cat: "house", example: "Parking is restricted for non-residents in this residential area.", example_ru: "Парковка ограничена для нерезидентов в этом жилом районе." },
+            { ru: "центр города", en: "Downtown", cat: "house", example: "Renting real estate downtown is extremely expensive.", example_ru: "Снимать недвижимость в центре города чрезвычайно дорого." },
+            { ru: "на окраине города", en: "Outskirts", cat: "house", example: "The mega mall is situated right on the outer outskirts.", example_ru: "Мега-молл расположен прямо на внешней окраине города." },
+            { ru: "гостиная", en: "Living room / Lounge", cat: "house", example: "We gather in the living room / lounge to watch evening films.", example_ru: "Мы собираемся в гостиной, чтобы посмотреть вечерние фильмы." },
+            { ru: "коридор / прихожая", en: "Hall / Hallway", cat: "house", example: "Leave your shoes out in the entrance hall / hallway.", example_ru: "Оставьте обувь в прихожей." },
+            { ru: "хозяйственная комната", en: "Utility room", cat: "house", example: "The washing machine is placed inside the utility room.", example_ru: "Стиральная машина размещена внутри хозяйственной комнаты." },
+            { ru: "ванная, совмещенная со спальней", en: "En-suite bathroom", cat: "house", example: "The master bedroom features a private en-suite bathroom.", example_ru: "Главная спальня оборудована совмещенной ванной комнатой." },
+            { ru: "чулан", en: "Box room", cat: "house", example: "We use the tiny box room to store old holiday suitcases.", example_ru: "Мы используем крошечный чулан для хранения старых чемоданов." },
+            { ru: "мансардное окно", en: "Skylight", cat: "house", example: "The attic bedroom stays bright thanks to a ceiling skylight.", example_ru: "Мансардная спальня остается светлой благодаря потолочному мансардному окну." },
+            { ru: "планировка открытого типа (кухня-гостиная)", en: "Open-plan kitchen and living room", cat: "house", example: "Modern apartments feature an open-plan kitchen and living room.", example_ru: "Современные квартиры имеют открытую планировку кухни-гостиной." },
+            { ru: "просторный", en: "Spacious", cat: "house", example: "The new flat has a spacious kitchen area.", example_ru: "В новой квартире просторная кухонная зона." },
+            { ru: "воздушный", en: "Airy", cat: "house", example: "Big open windows make the room look incredibly airy.", example_ru: "Большие открытые окна делают комнату невероятно воздушной." },
+            { ru: "уютный", en: "Cosy", cat: "house", example: "It feels so cosy to sit by the open fire in winter.", example_ru: "Зимой так уютно сидеть у открытого огня." },
+            { ru: "уютный, домашний", en: "Homely", cat: "house", example: "The hotel decoration created a warm homely atmosphere.", example_ru: "Оформление отеля создало теплую домашнюю атмосферу." },
+            { ru: "хорошо освещённый", en: "Well-lit", cat: "house", example: "The studio is well-lit due to massive panorama glass.", example_ru: "Студия хорошо освещена благодаря массивным панорамным стеклам." },
+            { ru: "тесный", en: "Cramped", cat: "house", example: "Living in a cramped room with three people is difficult.", example_ru: "Трудно жить в тесной комнате втроем." },
+            { ru: "захламлённый", en: "Cluttered", cat: "house", example: "Clear your cluttered work desk to focus better on tasks.", example_ru: "Освободи свой захламлённый рабочий стол, чтобы лучше сосредоточиться на задачах." },
+            { ru: "темный, мрачный", en: "Gloomy", cat: "house", example: "The rainy cold weather made the room look dark and gloomy.", example_ru: "Дождливая холодная погода сделала комнату темной и мрачной." },
+            { ru: "со сквозняками", en: "Drafty", cat: "house", example: "Old houses often have cold drafty wooden window gaps.", example_ru: "В старых домах часто бывают холодные деревянные окна со сквозняками." },
+            { ru: "минималистичный", en: "Minimalist", cat: "house", example: "He prefers a minimalist design with zero unneeded decor.", example_ru: "Он предпочитает минималистичный дизайн вообще без лишнего декора." },
+            { ru: "современный", en: "Contemporary / modern", cat: "house", example: "The gallery exhibits fine contemporary / modern art works.", example_ru: "Галерея экспонирует прекрасные произведения современного искусства." },
+            { ru: "устаревший", en: "Dated", cat: "house", example: "The colorful flowery wallpaper looked heavily dated.", example_ru: "Цветные обои в цветочек выглядели сильно устаревшими." },
+            { ru: "полностью меблированный", en: "Fully-furnished", cat: "house", example: "The landlord offers a fully-furnished room ready to move.", example_ru: "Арендодатель предлагает полностью меблированную комнату, готовую к заселению." },
+            { ru: "владелец", en: "Owner", cat: "house", example: "He is the proud legal owner of a new vehicle.", example_ru: "Он является законным владельцем нового автомобиля." },
+            { ru: "арендодатель", en: "Landlord", cat: "house", example: "Our landlord agreed to fix the leaking kitchen tap.", example_ru: "Наш арендодатель согласился починить протекающий кухонный кран." },
+            { ru: "арендатор", en: "Tenant", cat: "house", example: "The tenant paid his monthly apartment rent right on time.", example_ru: "Арендатор вовремя заплатил ежемесячную плату за квартиру." },
+            { ru: "арендатор (через R)", en: "Renter", cat: "house", example: "As a long term renter, she treats the home carefully.", example_ru: "Как арендатор на долгий срок, она бережно относится к дому." },
+            { ru: "жилец", en: "Lodger", cat: "house", example: "They decided to rent the spare attic room to a student lodger.", example_ru: "Они решили сдать свободную комнату на мансарде студенту-жильцу." },
+            { ru: "живет с питанием", en: "Boarder", cat: "house", example: "The school dorm provides meals for every young boarder.", example_ru: "Школьное общежитие предоставляет питание для каждого живущего там жильца." }
         ];
 
         let currentCategory = 'all';
@@ -531,6 +535,7 @@
             document.getElementById('quiz-box').style.display = 'block';
             document.getElementById('success-box').style.display = 'none';
             document.getElementById('feedback').innerHTML = '';
+            document.getElementById('context-example').style.display = 'none';
             document.getElementById('answer-input').value = '';
             document.getElementById('submit-btn').innerText = "Проверить";
             
@@ -551,6 +556,7 @@
             document.getElementById('answer-input').disabled = false;
             document.getElementById('answer-input').focus();
             document.getElementById('feedback').innerHTML = '';
+            document.getElementById('context-example').style.display = 'none';
             document.getElementById('submit-btn').innerText = "Проверить";
             isShowingAnswer = false;
         }
@@ -560,6 +566,7 @@
 
             const inputField = document.getElementById('answer-input');
             const feedbackField = document.getElementById('feedback');
+            const exampleField = document.getElementById('context-example');
             const cardDisplay = document.getElementById('card-display');
             const submitBtn = document.getElementById('submit-btn');
 
@@ -568,12 +575,12 @@
                 return;
             }
 
+            const currentCard = currentDeck[0];
             const userAnswer = inputField.value.trim().toLowerCase().replace(/\s+/g, ' ');
-            const rawCorrect = currentDeck[0].en.toLowerCase().trim();
+            const rawCorrect = currentCard.en.toLowerCase().trim();
             
             const correctAnswers = [
                 rawCorrect,
-                rawCorrect.replace(/^to\s+/, ''), 
                 rawCorrect.replace(/\s*\/\s*/g, '/'), 
             ];
             
@@ -584,14 +591,18 @@
 
             let isCorrect = false;
             correctAnswers.forEach(correct => {
-                if (userAnswer === correct || 
-                    userAnswer === correct.replace(/^to\s+/, '') ||
-                    userAnswer === correct.replace(/\s*\/\s*/, '/')) {
+                if (userAnswer === correct || userAnswer === correct.replace(/\s*\/\s*/, '/')) {
                     isCorrect = true;
                 }
             });
 
             inputField.disabled = true;
+
+            // Выводим контекстный пример
+            if (currentCard.example) {
+                exampleField.innerHTML = `<strong>Пример:</strong> ${currentCard.example}<span class="translation">${currentCard.example_ru}</span>`;
+                exampleField.style.display = 'block';
+            }
 
             if (isCorrect) {
                 feedbackField.className = "feedback success";
@@ -602,10 +613,11 @@
                 learnedCount++;
                 updateProgress();
                 
-                setTimeout(showNextCard, 1200);
+                submitBtn.innerText = "Дальше";
+                isShowingAnswer = true;
             } else {
                 feedbackField.className = "feedback error";
-                feedbackField.innerHTML = `❌ Ошибка!<div class="correct-answer">Правильный ответ: <strong>${currentDeck[0].en}</strong></div>`;
+                feedbackField.innerHTML = `❌ Ошибка!<div class="correct-answer">Правильный ответ: <strong>${currentCard.en}</strong></div>`;
                 cardDisplay.style.backgroundColor = "#ffebee";
                 
                 const failedCard = currentDeck.shift();
