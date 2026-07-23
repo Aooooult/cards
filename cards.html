@@ -36,17 +36,17 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 25px;
-            max-width: 800px;
+            max-width: 850px;
         }
         .tab-btn {
             background-color: #fff;
             border: 2px solid var(--accent-color);
             color: var(--accent-color);
-            padding: 10px 24px;
+            padding: 10px 20px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
         }
         .tab-btn.active, .tab-btn:hover {
@@ -59,7 +59,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             padding: 30px;
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -110,7 +110,7 @@
             margin-bottom: 10px;
         }
         .word-text {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 600;
             line-height: 1.4;
         }
@@ -202,9 +202,10 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('graphs')">Task 1 - Graphs</button>
         <button class="tab-btn" onclick="changeCategory('maps')">Task 1 - Maps</button>
         <button class="tab-btn" onclick="changeCategory('education')">Education</button>
-        <button class="tab-btn" onclick="changeCategory('people_relationships')">People and relationships</button>
+        <button class="tab-btn" onclick="changeCategory('people_relationships')">People & Relationships</button>
         <button class="tab-btn" onclick="changeCategory('health')">Health</button>
         <button class="tab-btn" onclick="changeCategory('environment')">Environment</button>
         <button class="tab-btn" onclick="changeCategory('hometown')">My Hometown</button>
@@ -246,6 +247,68 @@
 
     <script>
         const allWords = [
+            // --- Категория: Task 1 - Graphs ---
+            { ru: "ряд / строка", en: "row", cat: "graphs", example: "Check the third row in the bar chart table.", example_ru: "Проверьте третью строку в таблице столбчатой диаграммы." },
+            { ru: "горизонтальная / вертикальная ось", en: "horizontal / vertical axis", cat: "graphs", example: "The horizontal axis shows years, while the vertical axis represents production.", example_ru: "Горизонтальная ось показывает годы, а вертикальная — производство." },
+            { ru: "круговая / столбчатая диаграмма", en: "pie / bar chart", cat: "graphs", example: "The bar chart compares oil consumption across five countries.", example_ru: "Столбчатая диаграмма сравнивает потребление нефти в пяти странах." },
+            { ru: "взлететь / резко вырасти (r... / s...)", en: "rocket / soar", cat: "graphs", example: "Oil consumption rocketed / soared to over 6 million barrels per day.", example_ru: "Потребление нефти взлетело/резко выросло до более чем 6 миллионов баррелей в день." },
+            { ru: "снижаться / уменьшаться (d... / d...)", en: "decline / decrease", cat: "graphs", example: "The figure experienced a slight decline in 1995.", example_ru: "Показатель испытал небольшое снижение в 1995 году." },
+            { ru: "резко упасть / рухнуть (p...)", en: "plummet", cat: "graphs", example: "Production plummeted to an all-time low in 2000.", example_ru: "Производство резко упало до исторического минимума в 2000 году." },
+            { ru: "поддерживать / сохранять / оставаться (m... / r... / s...)", en: "maintain / remain / stay", cat: "graphs", example: "The line remained stable throughout the decade.", example_ru: "Линия оставалась стабильной на протяжении десятилетия." },
+            { ru: "небольшой, незначительный (sl...)", en: "slight / slightly", cat: "graphs", example: "There was a slight increase in consumption in 1985.", example_ru: "В 1985 году произошел незначительный рост потребления." },
+            { ru: "скромный, умеренный (m...)", en: "modest", cat: "graphs", example: "The data showed a modest growth from 1994 to 2006.", example_ru: "Данные показали умеренный рост с 1994 по 2006 год." },
+            { ru: "значительный, существенный (si...)", en: "significant / significantly", cat: "graphs", example: "The figure rose significantly after 1990.", example_ru: "Показатель значительно вырос после 1990 года." },
+            { ru: "резкий, существенный, драматический (d...)", en: "dramatic", cat: "graphs", example: "A dramatic rise was observed in the second half of the period.", example_ru: "Резкий рост наблюдался во второй половине периода." },
+            { ru: "устойчивый, стабильный, постоянный (st... / st...)", en: "steady / stable", cat: "graphs", example: "Oil production maintained a steady level for four years.", example_ru: "Производство нефти сохраняло устойчивый уровень четыре года." },
+            { ru: "существенный, значительный (su...)", en: "substantial / substantially", cat: "graphs", example: "The data experienced a substantial upward trend.", example_ru: "Данные показали существенный восходящий тренд." },
+            { ru: "неизменный", en: "unchanged", cat: "graphs", example: "The production figure remained unchanged for several years.", example_ru: "Показатель производства оставался неизменным несколько лет." },
+            { ru: "падение, проседание / опускаться", en: "dip", cat: "graphs", example: "There was a brief dip before the line rocketed.", example_ru: "Произошло кратковременное проседание перед тем, как линия взлетела." },
+            { ru: "достигать максимума / пик", en: "peak", cat: "graphs", example: "The production reached a peak of 3.5 million barrels.", example_ru: "Производство достигло пика в 3.5 миллиона баррелей." },
+            { ru: "значительно, существенно (c...)", en: "considerably", cat: "graphs", example: "Consumption was considerably higher than production.", example_ru: "Потребление было значительно выше производства." },
+            { ru: "резко, значительно (sh...)", en: "sharply", cat: "graphs", example: "The line increased sharply in 2002.", example_ru: "Линия резко пошла вверх в 2002 году." },
+            { ru: "постепенно, поэтапно (g...)", en: "gradually", cat: "graphs", example: "The figure grew gradually over the 10-year period.", example_ru: "Показатель постепенно рос в течение 10-летнего периода." },
+            { ru: "умеренно, относительно (m...)", en: "moderately", cat: "graphs", example: "The line rose moderately in the subsequent years.", example_ru: "Линия умеренно выросла в последующие годы." },
+            { ru: "последовательно, постоянно (c...)", en: "consistently", cat: "graphs", example: "Consumption increased consistently from 1993 onwards.", example_ru: "Потребление последовательно росло, начиная с 1993 года и далее." },
+            { ru: "резко, внезапно, неожиданно (a...)", en: "abruptly", cat: "graphs", example: "The trend changed abruptly in 1993.", example_ru: "Тренд резко изменился в 1993 году." },
+            { ru: "заметно, значительно (m...)", en: "markedly", cat: "graphs", example: "The gap between figures widened markedly.", example_ru: "Разрыв между показателями заметно увеличился." },
+            { ru: "поразительно, потрясающе (sh...)", en: "shockingly", cat: "graphs", example: "The numbers fell shockingly fast.", example_ru: "Цифры падали поразительно быстро." },
+            { ru: "постепенно, прогрессивно (p...)", en: "progressively", cat: "graphs", example: "The gap expanded progressively over time.", example_ru: "Разрыв со временем постепенно расширялся." },
+            { ru: "стабильно, постоянно (st...)", en: "steadily", cat: "graphs", example: "The output increased steadily year by year.", example_ru: "Выпуск продукции стабильно увеличивался из года в год." },
+            { ru: "пропорция / доля (p...)", en: "proportion", cat: "graphs", example: "The proportion of renewable energy grew.", example_ru: "Доля возобновляемой энергии выросла." },
+            { ru: "доля / часть (s...)", en: "share", cat: "graphs", example: "Oil held the largest share of energy sources.", example_ru: "Нефть занимала наибольшую долю среди источников энергии." },
+            { ru: "показатель для...", en: "figure for", cat: "graphs", example: "The figure for consumption was far higher.", example_ru: "Показатель потребления был гораздо выше." },
+            { ru: "количество... (неисчисляемое)", en: "amount of", cat: "graphs", example: "A large amount of oil was imported.", example_ru: "Большое количество нефти было импортировано." },
+            { ru: "количество / объем...", en: "quantity of", cat: "graphs", example: "The quantity of production increased.", example_ru: "Количество производства увеличилось." },
+            { ru: "объем...", en: "volume of", cat: "graphs", example: "The total volume of oil reached 6 million barrels.", example_ru: "Общий объем нефти достиг 6 миллионов баррелей." },
+            { ru: "количество... (исчисляемое)", en: "number of", cat: "graphs", example: "The number of barrels rose steadily.", example_ru: "Количество баррелей стабильно росло." },
+            { ru: "данные по / для...", en: "data for", cat: "graphs", example: "The data for China showed a rapid growth.", example_ru: "Данные по Китаю показали быстрый рост." },
+            { ru: "после чего / вслед за чем...", en: "subsequent to which", cat: "graphs", example: "The line dipped, subsequent to which it rocketed.", example_ru: "Линия просела, после чего резко взлетела." },
+            { ru: "на протяжении всего периода", en: "throughout the entire period", cat: "graphs", example: "Production grew throughout the entire period.", example_ru: "Производство росло на протяжении всего периода." },
+            { ru: "за которым последовало...", en: "followed by", cat: "graphs", example: "There was a stability, followed by a modest growth.", example_ru: "Наблюдалась стабильность, за которой последовал умеренный рост." },
+            { ru: "показывать восходящий тренд", en: "show an upward trend", cat: "graphs", example: "The line showed a clear upward trend.", example_ru: "Линия показала четкий восходящий тренд." },
+            { ru: "следовать по восходящей траектории", en: "follow an upward trajectory", cat: "graphs", example: "Consumption followed an upward trajectory.", example_ru: "Потребление следовало по восходящей траектории." },
+            { ru: "испытывать стремительный (экспоненциальный) рост", en: "experience an exponential growth", cat: "graphs", example: "The data experienced an exponential growth.", example_ru: "Данные испытали стремительный рост." },
+            { ru: "показал стабильный, постепенный рост", en: "showed a steady, progressive rise", cat: "graphs", example: "The graph showed a steady, progressive rise.", example_ru: "График показал стабильный, постепенный рост." },
+            { ru: "показал изменчивую / нестабильную динамику", en: "showed a volatile pattern", cat: "graphs", example: "The market showed a volatile pattern.", example_ru: "Рынок показал нестабильную динамику." },
+            { ru: "неоднократно падать", en: "fall repeatedly", cat: "graphs", example: "The figures tended to fall repeatedly.", example_ru: "Показатели имели тенденцию неоднократно падать." },
+            { ru: "испытывать значительные колебания", en: "experience considerable variation", cat: "graphs", example: "The statistics experienced considerable variation.", example_ru: "Статистика испытывала значительные колебания." },
+            { ru: "пережил период нестабильности", en: "experienced a period of instability", cat: "graphs", example: "Oil prices experienced a period of instability.", example_ru: "Цены на нефть пережили период нестабильности." },
+            { ru: "показал колеблющийся тренд / динамику", en: "showed a fluctuating trend / pattern", cat: "graphs", example: "The sales showed a fluctuating trend.", example_ru: "Продажи показали колеблющийся тренд." },
+            { ru: "наблюдать резкий спад / снижение", en: "witness a sharp downturn / decline", cat: "graphs", example: "The sector witnessed a sharp downturn.", example_ru: "Сектор наблюдал резкий спад." },
+            { ru: "направленный вниз / нисходящий", en: "downward", cat: "graphs", example: "The line took a downward path.", example_ru: "Линия пошла по нисходящему пути." },
+            { ru: "оставался относительно стабильным / устойчивым", en: "remained relatively stable / steady", cat: "graphs", example: "The output remained relatively stable.", example_ru: "Выпуск оставался относительно стабильным." },
+            { ru: "сохранял постоянный / стабильный уровень", en: "maintained a consistent level", cat: "graphs", example: "Production maintained a consistent level.", example_ru: "Производство сохраняло постоянный уровень." },
+            { ru: "превысить / обогнать (e... / s... / o...)", en: "exceed / surpass / overtake", cat: "graphs", example: "Consumption surpassed production in 1993.", example_ru: "Потребление превысило производство в 1993 году." },
+            { ru: "занимал наименьшую позицию", en: "occupied the lowest position", cat: "graphs", example: "Nuclear power occupied the lowest position.", example_ru: "Ядерная энергетика занимала наименьшую позицию." },
+            { ru: "лидировал / вел", en: "led", cat: "graphs", example: "Until 1993, oil production led.", example_ru: "До 1993 года производство нефти лидировало." },
+            { ru: "доминировал на рынке", en: "dominated the market", cat: "graphs", example: "Coal dominated the market for decades.", example_ru: "Уголь доминировал на рынке десятилетиями." },
+            { ru: "выборка / образец", en: "the sample", cat: "graphs", example: "The sample included five distinct categories.", example_ru: "Выборка включала пять различных категорий." },
+            { ru: "отсутствовал в...", en: "was non-existent in", cat: "graphs", example: "Solar power was non-existent in 1980.", example_ru: "Солнечная энергия отсутствовала в 1980 году." },
+            { ru: "был введен / появился в...", en: "was introduced in", cat: "graphs", example: "A new technology was introduced in 1995.", example_ru: "Новая технология была введена в 1995 году." },
+            { ru: "впервые появился в...", en: "first appeared in", cat: "graphs", example: "Computers first appeared in the library in 2009.", example_ru: "Компьютеры впервые появились в библиотеке в 2009 году." },
+            { ru: "...за которым последовал умеренный рост, достигнув [X]", en: "...followed by a modest growth, reaching", cat: "graphs", example: "The line was stable, followed by a modest growth, reaching 3.5 million barrels.", example_ru: "Линия была стабильной, за чем последовал умеренный рост, достигнув 3.5 млн баррелей." },
+            { ru: "линия резко увеличилась, превысив отметку в [X]", en: "the line increased sharply, surpassing the mark of", cat: "graphs", example: "The line increased sharply, surpassing the 5-million mark.", example_ru: "Линия резко увеличилась, превысив отметку в 5 миллионов." },
+
             // --- Категория: Task 1 - Maps ---
             { ru: "карты сравнивают планировку...", en: "the maps compare the layout of", cat: "maps", example: "The maps compare the layout of the archaeological site in 1890 and 1990.", example_ru: "Карты сравнивают планировку археологического объекта в 1890 и 1990 годах." },
             { ru: "в целом, можно заметить", en: "overall, it can be noticed", cat: "maps", example: "Overall, it can be noticed that the main changes took place in the west.", example_ru: "В целом, можно заметить, что основные изменения произошли на западе." },
