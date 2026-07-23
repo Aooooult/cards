@@ -202,6 +202,7 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('maps')">Task 1 - Maps</button>
         <button class="tab-btn" onclick="changeCategory('education')">Education</button>
         <button class="tab-btn" onclick="changeCategory('people_relationships')">People and relationships</button>
         <button class="tab-btn" onclick="changeCategory('health')">Health</button>
@@ -245,6 +246,32 @@
 
     <script>
         const allWords = [
+            // --- Категория: Task 1 - Maps ---
+            { ru: "карты сравнивают планировку...", en: "the maps compare the layout of", cat: "maps", example: "The maps compare the layout of the archaeological site in 1890 and 1990.", example_ru: "Карты сравнивают планировку археологического объекта в 1890 и 1990 годах." },
+            { ru: "в целом, можно заметить", en: "overall, it can be noticed", cat: "maps", example: "Overall, it can be noticed that the main changes took place in the west.", example_ru: "В целом, можно заметить, что основные изменения произошли на западе." },
+            { ru: "основными изменениями / различиями было появление...", en: "the main changes / differences were the introduction", cat: "maps", example: "The main changes were the introduction of an industrial zone and a hospital.", example_ru: "Основными изменениями было появление промышленной зоны и больницы." },
+            { ru: "наряду с расширением...", en: "alongside the expansion of", cat: "maps", example: "There was a new school alongside the expansion of a residential area.", example_ru: "Появилась новая школа наряду с расширением жилой зоны." },
+            { ru: "масштабная вырубка лесов", en: "widespread deforestation", cat: "maps", example: "The region suffered from widespread deforestation.", example_ru: "Регион пострадал от масштабной вырубки лесов." },
+            { ru: "исчезновение (гор / леса)", en: "the disappearance of (mountains / a forest)", cat: "maps", example: "The main trend was the disappearance of mountains in the north.", example_ru: "Главным трендом было исчезновение гор на севере." },
+            { ru: "сокращение (зоны)", en: "the reduction of (a zone)", cat: "maps", example: "We can observe the reduction of the fiction zone.", example_ru: "Мы можем наблюдать сокращение зоны художественной литературы." },
+            { ru: "остались без изменений", en: "remained unchanged", cat: "maps", example: "The entrance, alongside the librarian's desk, remained unchanged.", example_ru: "Вход, наряду со столом библиотекаря, остался без изменений." },
+            { ru: "были расположены в южной зоне", en: "were located in the southern zone", cat: "maps", example: "The Hall Farm and Dalton Hall were located in the southern zone.", example_ru: "Ферма и Холл были расположены в южной зоне." },
+            { ru: "размещались в центре комнаты", en: "were housed in the center of the room", cat: "maps", example: "In 2001, all tables were housed in the center of the room.", example_ru: "В 2001 году все столы размещались в центре комнаты." },
+            { ru: "море располагалось в углу", en: "the sea was situated in the corner", cat: "maps", example: "The sea was situated in the southeastern corner.", example_ru: "Море располагалось в юго-восточном углу." },
+            { ru: "на восточном берегу реки", en: "on the eastern bank of the river", cat: "maps", example: "On the eastern bank of the river, houses were constructed.", example_ru: "На восточном берегу реки были построены дома." },
+            { ru: "вдоль западной стены", en: "along the western wall", cat: "maps", example: "Along the western wall, there were only two book genres.", example_ru: "Вдоль западной стены было всего два жанра книг." },
+            { ru: "в северо-западной / юго-восточной части", en: "in the northwestern / southeastern part", cat: "maps", example: "There was a green space in the northwestern part.", example_ru: "В северо-западной части была зеленая зона." },
+            { ru: "возле побережья / рядом с рекой", en: "beside the coast / beside the river", cat: "maps", example: "An airport appeared beside the river.", example_ru: "Рядом с рекой появился аэропорт." },
+            { ru: "совсем неподалеку", en: "just nearby", cat: "maps", example: "A children's area was located just nearby.", example_ru: "Детская зона располагалась совсем неподалеку." },
+            { ru: "при этом осталось лишь несколько деревьев", en: "with only a few trees remaining", cat: "maps", example: "The forest was cleared, with only a few trees remaining.", example_ru: "Лес вырубили, при этом осталось лишь несколько деревьев." },
+            { ru: "был заменен чем-то", en: "had been replaced by", cat: "maps", example: "The Hall Farm had been replaced by detached houses.", example_ru: "Ферма была заменена отдельными домами." },
+            { ru: "уступил место", en: "made way for", cat: "maps", example: "In the central area, the stables made way for a school.", example_ru: "В центральной части конюшни уступили место школе." },
+            { ru: "был переоборудован в...", en: "was converted into", cat: "maps", example: "Dalton Hall was converted into the Dalton Hall Hotel.", example_ru: "Далтон Холл был переоборудован в отель Далтон Холл." },
+            { ru: "был разделен на...", en: "had been divided into", cat: "maps", example: "This section had been divided into six parts.", example_ru: "Эта секция была разделена на шесть частей." },
+            { ru: "был разделен по...", en: "had been separated into", cat: "maps", example: "The land had been separated into two equal zones.", example_ru: "Земля была разделена на две равные зоны." },
+            { ru: "был значительно модернизирован", en: "had been modernized significantly", cat: "maps", example: "By 1990, the northeastern part had been modernized significantly.", example_ru: "К 1990 году северо-восточная часть была значительно модернизирована." },
+            { ru: "появился аэропорт / стадион", en: "an airport / a stadium appeared", cat: "maps", example: "In 2015, an airport appeared on the riverbank.", example_ru: "В 2015 году на берегу реки появился аэропорт." },
+
             // --- Категория: Education ---
             { ru: "профессиональное образование", en: "vocational education", cat: "education", example: "Vocational education provides students with practical skills for specific trades.", example_ru: "Профессиональное образование дает студентам практические навыки для конкретных профессий." },
             { ru: "школьник", en: "pupil", cat: "education", example: "The primary school teacher welcomed each new pupil into the classroom.", example_ru: "Учитель начальных классов поприветствовал каждого нового школьника в классе." },
