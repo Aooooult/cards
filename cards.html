@@ -659,7 +659,7 @@
             { ru: "арендатор", en: "Tenant", cat: "house", example: "The tenant paid his monthly apartment rent right on time.", example_ru: "Арендатор вовремя заплатил ежемесячную плату за квартиру." },
             { ru: "арендатор (через R)", en: "Renter", cat: "house", example: "As a long term renter, she treats the home carefully.", example_ru: "Как арендатор на долгий срок, она бережно относится к дому." },
             { ru: "жилец", en: "Lodger", cat: "house", example: "They decided to rent the spare attic room to a student lodger.", example_ru: "Они решили сдать свободную комнату на мансарде студенту-жильцу." },
-            { ru: "живет с питанием", en: "Boarder", cat: "house", example: "The school dorm provides meals for every young boarder.", example_ru: "Школьное общежитие предоставляет питание для каждого живущего там жильца." }
+            { ru: "живает с питанием", en: "Boarder", cat: "house", example: "The school dorm provides meals for every young boarder.", example_ru: "Школьное общежитие предоставляет питание для каждого живущего там жильца." }
         ];
 
         let currentCategory = 'all';
@@ -686,8 +686,8 @@
 
         function initQuiz() {
             if (currentCategory === 'all') {
-                // Исключаем слова из категорий task1 и tech_media при выборе "Все слова"
-                currentDeck = allWords.filter(w => w.cat !== 'task1' && w.cat !== 'tech_media');
+                // Исключаем только графики и карты (task1) из категории "Все слова"
+                currentDeck = allWords.filter(w => w.cat !== 'task1');
             } else {
                 currentDeck = allWords.filter(w => w.cat === currentCategory);
             }
