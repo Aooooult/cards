@@ -203,6 +203,7 @@
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
         <button class="tab-btn" onclick="changeCategory('task1')">Task 1 (Graphs & Maps)</button>
+        <button class="tab-btn" onclick="changeCategory('gov_crime')">Gov, Crime & Society</button>
         <button class="tab-btn" onclick="changeCategory('tech_media')">Technology & Media</button>
         <button class="tab-btn" onclick="changeCategory('education')">Education</button>
         <button class="tab-btn" onclick="changeCategory('people_relationships')">People & Relationships</button>
@@ -247,6 +248,57 @@
 
     <script>
         const allWords = [
+            // --- Категория: Government, Crime & Society ---
+            { ru: "государственная политика (g...)", en: "government policy", cat: "gov_crime", example: "The government policy aims to reduce unemployment.", example_ru: "Государственная политика направлена на снижение безработицы." },
+            { ru: "государственная / общественная политика (p...)", en: "public policy", cat: "gov_crime", example: "Public policy should focus on improving healthcare.", example_ru: "Общественная политика должна сосредоточиться на улучшении здравоохранения." },
+            { ru: "законодательство", en: "legislation", cat: "gov_crime", example: "New legislation was introduced to protect consumer rights.", example_ru: "Быловедено новое законодательство для защиты прав потребителей." },
+            { ru: "правило / регулирование", en: "regulation", cat: "gov_crime", example: "Strict safety regulation is necessary in factories.", example_ru: "Строгое регулирование безопасности необходимо на фабриках." },
+            { ru: "власть / орган власти", en: "authority", cat: "gov_crime", example: "Local authority introduced new parking rules.", example_ru: "Местный орган власти ввел новые правила парковки." },
+            { ru: "местное самоуправление", en: "local government", cat: "gov_crime", example: "The local government manages public parks.", example_ru: "Местное самоуправление управляет общественными парками." },
+            { ru: "государственные услуги", en: "public services", cat: "gov_crime", example: "Taxes help finance essential public services.", example_ru: "Налоги помогают финансировать жизненно важные госуслуги." },
+            { ru: "налогоплательщик", en: "taxpayer", cat: "gov_crime", example: "Taxpayer money should be spent wisely.", example_ru: "Деньги налогоплательщиков должны тратиться разумно." },
+            { ru: "налогообложение", en: "taxation", cat: "gov_crime", example: "High taxation can discourage business investments.", example_ru: "Высокое налогообложение может сдерживать инвестиции в бизнес." },
+            { ru: "государственные расходы (g...)", en: "government spending", cat: "gov_crime", example: "Government spending on education has increased.", example_ru: "Государственные расходы на образование увеличились." },
+            { ru: "государственное финансирование", en: "state funding", cat: "gov_crime", example: "The museum relies on state funding to stay open.", example_ru: "Музей полагается на государственное финансирование." },
+            { ru: "государственные расходы (p...)", en: "public expenditure", cat: "gov_crime", example: "Public expenditure on health rose sharply this year.", example_ru: "Госрасходы на здравоохранение резко выросли в этом году." },
+            { ru: "политическая стабильность", en: "political stability", cat: "gov_crime", example: "Political stability is crucial for economic growth.", example_ru: "Политическая стабильность крайне важна для экономического роста." },
+            { ru: "демократия", en: "democracy", cat: "gov_crime", example: "Free speech is a core element of democracy.", example_ru: "Свобода слова — ключевой элемент демократии." },
+            { ru: "гражданство", en: "citizenship", cat: "gov_crime", example: "He applied for dual citizenship last month.", example_ru: "Он подал заявление на двойное гражданство в прошлом месяце." },
+            { ru: "гражданские права", en: "civil rights", cat: "gov_crime", example: "Protecting civil rights is fundamental for a free society.", example_ru: "Защита гражданских прав фундаментальна для свободного общества." },
+            { ru: "выборы", en: "election", cat: "gov_crime", example: "The general election will take place next year.", example_ru: "Всеобщие выборы состоятся в следующем году." },
+            { ru: "коррупция", en: "corruption", cat: "gov_crime", example: "Anticorruption laws aim to stop bribery.", example_ru: "Антикоррупционные законы направлены на остановку взяточничества." },
+            { ru: "взяточничество", en: "bribery", cat: "gov_crime", example: "Bribery in politics damages public trust.", example_ru: "Взяточничество в политике вредит общественному доверию." },
+            { ru: "прозрачность", en: "transparency", cat: "gov_crime", example: "The public demands transparency from government officials.", example_ru: "Общественность требует прозрачности от госслужащих." },
+            { ru: "общественное доверие", en: "public trust", cat: "gov_crime", example: "Scandals quickly erode public trust in politicians.", example_ru: "Скандалы быстро подрывают общественное доверие к политикам." },
+            { ru: "преступник", en: "criminal", cat: "gov_crime", example: "The criminal was caught shortly after the robbery.", example_ru: "Преступник был пойман вскоре после ограбления." },
+            { ru: "подозреваемый", en: "suspect", cat: "gov_crime", example: "Police questioned the main suspect for hours.", example_ru: "Полиция допрашивала главного подозреваемого часами." },
+            { ru: "свидетель", en: "witness", cat: "gov_crime", example: "A witness saw the entire accident from across the street.", example_ru: "Свидетель видел всю аварии через дорогу." },
+            { ru: "доказательства", en: "evidence", cat: "gov_crime", example: "There was no solid evidence against the defendant.", example_ru: "Против подсудимого не было твердых доказательств." },
+            { ru: "уровень преступности", en: "crime rate", cat: "gov_crime", example: "The city saw a decline in its overall crime rate.", example_ru: "В городе наблюдалось снижение общего уровня преступности." },
+            { ru: "преступность среди несовершеннолетних", en: "juvenile crime", cat: "gov_crime", example: "Social programs help prevent juvenile crime in urban areas.", example_ru: "Социальные программы помогают предотвращать преступность среди несовершеннолетних." },
+            { ru: "мелкое преступление", en: "petty crime", cat: "gov_crime", example: "Pickpocketing is a common form of petty crime.", example_ru: "Карманное кражи — распространенная форма мелкого преступления." },
+            { ru: "экономическая / должностная преступность", en: "white-collar crime", cat: "gov_crime", example: "Fraud is a typical example of white-collar crime.", example_ru: "Мошенничество — типичный пример должностной преступности." },
+            { ru: "правоохранительные органы", en: "law enforcement", cat: "gov_crime", example: "Law enforcement agencies work to keep streets safe.", example_ru: "Правоохранительные органы работают над безопасностью улиц." },
+            { ru: "наказание", en: "punishment", cat: "gov_crime", example: "The punishment should fit the crime committed.", example_ru: "Наказание должно соответствовать совершенному преступлению." },
+            { ru: "приговор", en: "sentence", cat: "gov_crime", example: "The judge announced the prison sentence.", example_ru: "Судья огласил тюремный приговор." },
+            { ru: "тюремный срок", en: "prison sentence", cat: "gov_crime", example: "He was handed a five-year prison sentence.", example_ru: "Ему назначили пятилетний тюремный срок." },
+            { ru: "лишение свободы", en: "imprisonment", cat: "gov_crime", example: "Serious offences can lead to life imprisonment.", example_ru: "Серьезные преступления могут привести к пожизненному лишению свободы." },
+            { ru: "штраф", en: "fine", cat: "gov_crime", example: "He had to pay a heavy fine for speeding.", example_ru: "Ему пришлось заплатить крупный штраф за превышение скорости." },
+            { ru: "общественные работы", en: "community service", cat: "gov_crime", example: "The offender was sentenced to 100 hours of community service.", example_ru: "Правонарушитель был приговорен к 100 часам общественных работ." },
+            { ru: "условное освобождение", en: "probation", cat: "gov_crime", example: "The teenager was placed on probation for six months.", example_ru: "Подросток был помещен на условный срок на шесть месяцев." },
+            { ru: "повторное совершение преступления", en: "reoffending", cat: "gov_crime", example: "Rehabilitation helps reduce the rate of reoffending.", example_ru: "Реабилитация помогает снизить уровень повторных преступлений." },
+            { ru: "сдерживающий фактор", en: "deterrent", cat: "gov_crime", example: "Heavy fines act as a strong deterrent to speeding.", example_ru: "Крупные штрафы служат сильным сдерживающим фактором." },
+            { ru: "предотвращать / сдерживать преступность", en: "deter crime", cat: "gov_crime", example: "CCTV cameras in public spaces help deter crime.", example_ru: "Камеры наблюдения в общественных местах помогают сдерживать преступность." },
+            { ru: "предотвращение преступности", en: "crime prevention", cat: "gov_crime", example: "Police focus on crime prevention through community work.", example_ru: "Полиция сосредоточена на предотвращении преступности через работу с обществом." },
+            { ru: "реабилитировать правонарушителей", en: "rehabilitate offenders", cat: "gov_crime", example: "Prisons should aim to rehabilitate offenders back into society.", example_ru: "Тюрьмы должны стремиться реабилитировать правонарушителей для общества." },
+            { ru: "понести наказание за преступление", en: "pay the price for a crime", cat: "gov_crime", example: "Criminals must pay the price for a crime they committed.", example_ru: "Преступники должны понести наказание за совершенное преступление." },
+            { ru: "социальная проблема", en: "social issue", cat: "gov_crime", example: "Poverty is a pressing social issue worldwide.", example_ru: "Бедность — острая социальная проблема во всем мире." },
+            { ru: "бедность", en: "poverty", cat: "gov_crime", example: "Many families still live in extreme poverty.", example_ru: "Многие семьи все еще живут в крайней бедности." },
+            { ru: "бездомность", en: "homelessness", cat: "gov_crime", example: "The government is taking steps to tackle homelessness.", example_ru: "Правительство предпринимает шаги для решения проблемы бездомности." },
+            { ru: "безработица", en: "unemployment", cat: "gov_crime", example: "Unemployment rates dropped significantly this quarter.", example_ru: "Уровень безработицы значительно упал в этом квартале." },
+            { ru: "качество жизни", en: "quality of life", cat: "gov_crime", example: "Access to healthcare improves overall quality of life.", example_ru: "Доступ к медицине улучшает общее качество жизни." },
+            { ru: "разрыв в доходах", en: "income gap", cat: "gov_crime", example: "The income gap between rich and poor continues to widen.", example_ru: "Разрыв в доходах между богатыми и бедными продолжает увеличиваться." },
+
             // --- Категория: Technology & Media ---
             { ru: "поисковая система", en: "search engine", cat: "tech_media", example: "Google is the most widely used search engine in the world.", example_ru: "Google — самая широко используемая поисковая система в мире." },
             { ru: "технологический прогресс", en: "technological advancement", cat: "tech_media", example: "Rapid technological advancement changes our daily lives.", example_ru: "Быстрый технологический прогресс меняет нашу повседневную жизнь." },
@@ -659,7 +711,7 @@
             { ru: "арендатор", en: "Tenant", cat: "house", example: "The tenant paid his monthly apartment rent right on time.", example_ru: "Арендатор вовремя заплатил ежемесячную плату за квартиру." },
             { ru: "арендатор (через R)", en: "Renter", cat: "house", example: "As a long term renter, she treats the home carefully.", example_ru: "Как арендатор на долгий срок, она бережно относится к дому." },
             { ru: "жилец", en: "Lodger", cat: "house", example: "They decided to rent the spare attic room to a student lodger.", example_ru: "Они решили сдать свободную комнату на мансарде студенту-жильцу." },
-            { ru: "живает с питанием", en: "Boarder", cat: "house", example: "The school dorm provides meals for every young boarder.", example_ru: "Школьное общежитие предоставляет питание для каждого живущего там жильца." }
+            { ru: "живет с питанием", en: "Boarder", cat: "house", example: "The school dorm provides meals for every young boarder.", example_ru: "Школьное общежитие предоставляет питание для каждого живущего там жильца." }
         ];
 
         let currentCategory = 'all';
@@ -686,8 +738,8 @@
 
         function initQuiz() {
             if (currentCategory === 'all') {
-                // Исключаем только графики и карты (task1) из категории "Все слова"
-                currentDeck = allWords.filter(w => w.cat !== 'task1');
+                // Исключаем только категории task1 и gov_crime из категории "Все слова"
+                currentDeck = allWords.filter(w => w.cat !== 'task1' && w.cat !== 'gov_crime');
             } else {
                 currentDeck = allWords.filter(w => w.cat === currentCategory);
             }
