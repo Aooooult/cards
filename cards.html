@@ -204,6 +204,7 @@
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
         <button class="tab-btn" onclick="changeCategory('task1')">Task 1 (Graphs & Maps)</button>
         <button class="tab-btn" onclick="changeCategory('gov_crime')">Gov, Crime & Society</button>
+        <button class="tab-btn" onclick="changeCategory('culture_art')">Culture & Art</button>
         <button class="tab-btn" onclick="changeCategory('tech_media')">Technology & Media</button>
         <button class="tab-btn" onclick="changeCategory('education')">Education</button>
         <button class="tab-btn" onclick="changeCategory('people_relationships')">People & Relationships</button>
@@ -248,10 +249,46 @@
 
     <script>
         const allWords = [
+            // --- Категория: Culture & Art ---
+            { ru: "культурное наследие", en: "cultural heritage", cat: "culture_art", example: "The museum plays a vital role in preserving cultural heritage.", example_ru: "Музей играет важную роль в сохранении культурного наследия." },
+            { ru: "культурные ценности", en: "cultural values", cat: "culture_art", example: "Every society passes down its cultural values to the next generation.", example_ru: "Каждое общество передает свои культурные ценности следующему поколению." },
+            { ru: "обычай", en: "custom", cat: "culture_art", example: "It is a local custom to greet guests with tea.", example_ru: "Этой местный обычай — встречать гостей чаем." },
+            { ru: "убеждение / верование", en: "belief", cat: "culture_art", example: "People hold diverse religious and philosophical beliefs.", example_ru: "Люди придерживаются разнообразных религиозных и философских убеждений." },
+            { ru: "передавать из поколения в поколение", en: "pass down", cat: "culture_art", example: "Traditions are passed down through storytelling.", example_ru: "Традиции передаются из поколения в поколение через сказительство." },
+            { ru: "мультикультурное общество", en: "multicultural society", cat: "culture_art", example: "Living in a multicultural society enriches our perspective.", example_ru: "Жизнь в мультикультурном обществе обогащает наше мировоззрение." },
+            { ru: "культурный обмен", en: "cultural exchange", cat: "culture_art", example: "International festivals promote cultural exchange.", example_ru: "Международные фестивали способствуют культурному обмену." },
+            { ru: "произведение искусства (a... / w...)", en: "artwork / work of art", cat: "culture_art", example: "The gallery exhibits valuable artworks from the 19th century.", example_ru: "Галерея экспонирует ценные произведения искусства 19-го века." },
+            { ru: "шедевр", en: "masterpiece", cat: "culture_art", example: "The Mona Lisa is considered a Renaissance masterpiece.", example_ru: "Мона Лиза считается шедевром эпохи Возрождения." },
+            { ru: "современное искусство", en: "contemporary art", cat: "culture_art", example: "Contemporary art often provokes deep public debate.", example_ru: "Современное искусство часто вызывает бурные общественные дискуссии." },
+            { ru: "натюрморт", en: "still life", cat: "culture_art", example: "He painted a delicate still life featuring fresh flowers.", example_ru: "Он написал изящный натюрморт со свежими цветами." },
+            { ru: "акварель", en: "watercolour", cat: "culture_art", example: "She created a soft landscape painting using watercolour.", example_ru: "Она создала нежный пейзаж с помощью акварели." },
+            { ru: "холст", en: "canvas", cat: "culture_art", example: "The artist prepared the canvas before applying oil paint.", example_ru: "Художник подготовил холст перед нанесением масляной краски." },
+            { ru: "реалистичное искусство", en: "realistic art", cat: "culture_art", example: "Realistic art focuses on depicting subjects as they appear in real life.", example_ru: "Реалистичное искусство сосредоточено на изображении объектов такими, какие они в жизни." },
+            { ru: "режиссёр", en: "director", cat: "culture_art", example: "The movie director won an award at the film festival.", example_ru: "Кинорежиссёр выиграл награду на кинофестивале." },
+            { ru: "сценарист", en: "screenwriter", cat: "culture_art", example: "The screenwriter crafted a very compelling story.", example_ru: "Сценарист создал очень увлекательную историю." },
+            { ru: "главный герой / персонаж", en: "main character", cat: "culture_art", example: "The main character undergoes significant personal growth.", example_ru: "Главный герой проходит через значительный личный рост." },
+            { ru: "второстепенный персонаж", en: "supporting character", cat: "culture_art", example: "The supporting character added humor to the dramatic plot.", example_ru: "Второстепенный персонаж добавил юмора в драматический сюжет." },
+            { ru: "документальный фильм", en: "documentary", cat: "culture_art", example: "We watched an insightful documentary about marine life.", example_ru: "Мы посмотрели познавательный документальный фильм о морской жизни." },
+            { ru: "кассовые сборы", en: "box office", cat: "culture_art", example: "The film broke box office records in its opening weekend.", example_ru: "Фильм побил рекорды кассовых сборов в первый уикенд." },
+            { ru: "спецэффекты", en: "special effects", cat: "culture_art", example: "Modern sci-fi movies heavily rely on advanced special effects.", example_ru: "Современная фантастика сильно полагается на передовые спецэффекты." },
+            { ru: "блокбастер", en: "blockbuster", cat: "culture_art", example: "The summer blockbuster attracted millions of viewers.", example_ru: "Летний блокбастер привлек миллионы зрителей." },
+            { ru: "ремейк", en: "remake", cat: "culture_art", example: "The classic movie received a modern remake.", example_ru: "Классический фильм получил современный ремейк." },
+            { ru: "захватывающий (g...)", en: "gripping", cat: "culture_art", example: "It was a gripping thriller that kept me on the edge of my seat.", example_ru: "Это был захватывающий триллер, который держал меня в напряжении." },
+            { ru: "увлекательный (c...)", en: "compelling", cat: "culture_art", example: "The novel presents a compelling argument about human nature.", example_ru: "Роман представляет увлекательные рассуждения о человеческой природе." },
+            { ru: "заставляющий задуматься", en: "thought-provoking", cat: "culture_art", example: "The play raised several thought-provoking social questions.", example_ru: "Пьеса подняла несколько заставляющих задуматься социальных вопросов." },
+            { ru: "трогательный", en: "moving", cat: "culture_art", example: "The ending of the drama was deeply moving.", example_ru: "Концовка драмы была глубоко трогательной." },
+            { ru: "слова песни", en: "lyrics", cat: "culture_art", example: "The lyrics of this ballad are written with poetic depth.", example_ru: "Слова этой баллады написаны с поэтической глубиной." },
+            { ru: "оркестр", en: "orchestra", cat: "culture_art", example: "The symphony orchestra performed Beethoven's Fifth Symphony.", example_ru: "Симфонический оркестр исполнил Пятую симфонию Бетховена." },
+            { ru: "живое выступление", en: "live performance", cat: "culture_art", example: "Nothing compares to the energy of a live performance.", example_ru: "Ничто не сравнится с энергией живого выступления." },
+            { ru: "народная музыка", en: "folk music", cat: "culture_art", example: "Folk music reflects the culture and heritage of a nation.", example_ru: "Народная музыка отражает культуру и наследие нации." },
+            { ru: "запоминающаяся мелодия", en: "catchy melody", cat: "culture_art", example: "The pop song has a very catchy melody that stays in your head.", example_ru: "У поп-песни очень запоминающаяся мелодия, которая заседает в голове." },
+            { ru: "роман", en: "novel", cat: "culture_art", example: "She is writing a historical novel set in the 18th century.", example_ru: "Она пишет исторический роман, действие которого происходит в 18 веке." },
+            { ru: "литературный жанр", en: "literary genre", cat: "culture_art", example: "Science fiction is a immensely popular literary genre.", example_ru: "Научная фантастика — чрезвычайно популярный литературный жанр." },
+
             // --- Категория: Government, Crime & Society ---
             { ru: "государственная политика (g...)", en: "government policy", cat: "gov_crime", example: "The government policy aims to reduce unemployment.", example_ru: "Государственная политика направлена на снижение безработицы." },
             { ru: "государственная / общественная политика (p...)", en: "public policy", cat: "gov_crime", example: "Public policy should focus on improving healthcare.", example_ru: "Общественная политика должна сосредоточиться на улучшении здравоохранения." },
-            { ru: "законодательство", en: "legislation", cat: "gov_crime", example: "New legislation was introduced to protect consumer rights.", example_ru: "Быловедено новое законодательство для защиты прав потребителей." },
+            { ru: "законодательство", en: "legislation", cat: "gov_crime", example: "New legislation was introduced to protect consumer rights.", example_ru: "Было введено новое законодательство для защиты прав потребителей." },
             { ru: "правило / регулирование", en: "regulation", cat: "gov_crime", example: "Strict safety regulation is necessary in factories.", example_ru: "Строгое регулирование безопасности необходимо на фабриках." },
             { ru: "власть / орган власти", en: "authority", cat: "gov_crime", example: "Local authority introduced new parking rules.", example_ru: "Местный орган власти ввел новые правила парковки." },
             { ru: "местное самоуправление", en: "local government", cat: "gov_crime", example: "The local government manages public parks.", example_ru: "Местное самоуправление управляет общественными парками." },
@@ -738,8 +775,8 @@
 
         function initQuiz() {
             if (currentCategory === 'all') {
-                // Исключаем только категории task1 и gov_crime из категории "Все слова"
-                currentDeck = allWords.filter(w => w.cat !== 'task1' && w.cat !== 'gov_crime');
+                // Исключаем категории task1, gov_crime и culture_art из категории "Все слова"
+                currentDeck = allWords.filter(w => w.cat !== 'task1' && w.cat !== 'gov_crime' && w.cat !== 'culture_art');
             } else {
                 currentDeck = allWords.filter(w => w.cat === currentCategory);
             }
