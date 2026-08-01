@@ -202,6 +202,7 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('work_employment')">Work & Employment</button>
         <button class="tab-btn" onclick="changeCategory('tourism')">Tourism & Travel</button>
         <button class="tab-btn" onclick="changeCategory('task1')">Task 1 (Graphs & Maps)</button>
         <button class="tab-btn" onclick="changeCategory('gov_crime')">Gov, Crime & Society</button>
@@ -250,6 +251,43 @@
 
     <script>
         const allWords = [
+            // --- Категория: Work & Employment ---
+            { ru: "род занятий", en: "occupation", cat: "work_employment", example: "Please state your name, age, and occupation.", example_ru: "Укажите ваше имя, возраст и род занятий." },
+            { ru: "профессия", en: "profession", cat: "work_employment", example: "Teaching is a highly respected profession.", example_ru: "Преподавание — это высокоуважаемая профессия." },
+            { ru: "сотрудник", en: "employee", cat: "work_employment", example: "Employees should receive fair treatment.", example_ru: "Сотрудники должны получать справедливое отношение." },
+            { ru: "работодатель", en: "employer", cat: "work_employment", example: "Employers are looking for skilled workers.", example_ru: "Работодатели ищут квалифицированных работников." },
+            { ru: "рабочая сила", en: "workforce", cat: "work_employment", example: "A skilled workforce is essential for economic growth.", example_ru: "Квалифицированная рабочая сила необходима для экономического роста." },
+            { ru: "рынок труда", en: "labour market", cat: "work_employment", example: "The labour market has become more competitive.", example_ru: "Рынок труда стал более конкурентным." },
+            { ru: "занятость", en: "employment", cat: "work_employment", example: "Technology has changed patterns of employment.", example_ru: "Технологии изменили структуру занятости." },
+            { ru: "безработица", en: "unemployment", cat: "work_employment", example: "High unemployment can lead to social problems.", example_ru: "Высокая безработица может привести к социальным проблемам." },
+            { ru: "самозанятость", en: "self-employment", cat: "work_employment", example: "Self-employment offers greater independence.", example_ru: "Самозанятость обеспечивает большую независимость." },
+            { ru: "предприниматель", en: "entrepreneur", cat: "work_employment", example: "The young entrepreneur launched a successful tech startup.", example_ru: "Молодой предприниматель запустил успешный технологический стартап." },
+            { ru: "коллега", en: "colleague", cat: "work_employment", example: "I had a productive meeting with my colleagues today.", example_ru: "Сегодня у меня была продуктивная встреча с коллегами." },
+            { ru: "ученик, проходящий обучение профессии", en: "apprentice", cat: "work_employment", example: "He started as an apprentice electrician before becoming fully qualified.", example_ru: "Он начинал учеником электрика, прежде чем получить полную квалификацию." },
+            { ru: "постоянная должность", en: "permanent position", cat: "work_employment", example: "She was offered a permanent position at the firm after her internship.", example_ru: "Ей предложили постоянную должность в фирме после стажировки." },
+            { ru: "фриланс", en: "freelance work", cat: "work_employment", example: "Freelance work provides flexibility.", example_ru: "Фриланс обеспечивает гибкость." },
+            { ru: "удалённая работа", en: "remote work", cat: "work_employment", example: "Remote work became common after the pandemic.", example_ru: "Удалённая работа стала обычной практикой после пандемии." },
+            { ru: "гибридный формат работы", en: "hybrid work", cat: "work_employment", example: "Many companies are adopting hybrid work models to keep staff happy.", example_ru: "Многие компании внедряют гибридный формат работы, чтобы сотрудники были довольны." },
+            { ru: "физический труд", en: "manual labour", cat: "work_employment", example: "Automation reduces the need for heavy manual labour in factories.", example_ru: "Автоматизация снижает потребность в тяжёлом физическом труде на заводах." },
+            { ru: "заработная плата", en: "wage", cat: "work_employment", example: "Workers are demanding a fair hourly wage.", example_ru: "Рабочие требуют справедливой почасовой заработной платы." },
+            { ru: "доход", en: "income", cat: "work_employment", example: "A stable income provides financial security.", example_ru: "Стабильный доход обеспечивает финансовую безопасность." },
+            { ru: "минимальная зарплата", en: "minimum wage", cat: "work_employment", example: "Some people argue that the minimum wage should be increased.", example_ru: "Некоторые люди утверждают, что минимальная зарплата должна быть увеличена." },
+            { ru: "повышение зарплаты", en: "pay rise", cat: "work_employment", example: "She was granted a generous pay rise after completing the project.", example_ru: "Ей дали щедрое повышение зарплаты после завершения проекта." },
+            { ru: "пенсия", en: "pension", cat: "work_employment", example: "He receives a comfortable private pension after 40 years of service.", example_ru: "Он получает хорошую частную пенсию после 40 лет службы." },
+            { ru: "повышение", en: "promotion", cat: "work_employment", example: "Hard work and dedication earned him a well-deserved promotion.", example_ru: "Усердная работа и преданность делу принесли ему заслуженное повышение." },
+            { ru: "карьерные перспективы", en: "career prospects", cat: "work_employment", example: "Gaining international experience can enhance your career prospects.", example_ru: "Получение международного опыта может улучшить ваши карьерные перспективы." },
+            { ru: "баланс между работой и личной жизнью", en: "work-life balance", cat: "work_employment", example: "Maintaining a good work-life balance reduces stress.", example_ru: "Поддержание хорошего баланса между работой и личной жизнью снижает стресс." },
+            { ru: "гибкий график", en: "flexible working hours", cat: "work_employment", example: "Flexible working hours improve employee satisfaction.", example_ru: "Гибкий график повышает удовлетворённость сотрудников." },
+            { ru: "сверхурочная работа", en: "overtime", cat: "work_employment", example: "He often works overtime.", example_ru: "Он часто работает сверхурочно." },
+            { ru: "рабочая нагрузка", en: "workload", cat: "work_employment", example: "Her workload increased significantly.", example_ru: "Её рабочая нагрузка значительно увеличилась." },
+            { ru: "эмоциональное выгорание", en: "burnout", cat: "work_employment", example: "Working without adequate rest can quickly result in professional burnout.", example_ru: "Работа без полноценного отдыха может быстро привести к профессиональному выгоранию." },
+            { ru: "соблюдать сроки", en: "meet deadlines", cat: "work_employment", example: "It is crucial for software developers to meet deadlines.", example_ru: "Для разработчиков ПО крайне важно соблюдать сроки." },
+            { ru: "ответственный", en: "responsible", cat: "work_employment", example: "We need a responsible person to handle financial audit records.", example_ru: "Нам нужен ответственный человек для работы с записями финансового аудита." },
+            { ru: "непрерывное обучение", en: "continuous learning", cat: "work_employment", example: "Continuous learning is essential to stay competitive in the modern workplace.", example_ru: "Непрерывное обучение необходимо для поддержания конкурентоспособности на современном рабочем месте." },
+            { ru: "продвигаться по карьерной лестнице", en: "climb the career ladder", cat: "work_employment", example: "Ambitious professionals strive to climb the career ladder quickly.", example_ru: "Амбициозные специалисты стремятся быстро продвигаться по карьерной лестнице." },
+            { ru: "зарабатывать на жизнь (e...)", en: "earn a living", cat: "work_employment", example: "He works two part-time jobs to earn a living.", example_ru: "Он работает на двух подработках, чтобы зарабатывать на жизнь." },
+            { ru: "зарабатывать на жизнь (m...)", en: "make a living", cat: "work_employment", example: "It can be challenging to make a living as a full-time artist.", example_ru: "Зарабатывать на жизнь, будучи свободным художником, может быть непросто." },
+
             // --- Категория: Tourism & Travel ---
             { ru: "осмотр достопримечательностей", en: "sightseeing", cat: "tourism", example: "We spent the whole morning doing sightseeing in Rome.", example_ru: "Мы провели всё утро, осматривая достопримечательности в Риме." },
             { ru: "туристическая достопримечательность", en: "tourist attraction", cat: "tourism", example: "The Eiffel Tower is a world-famous tourist attraction.", example_ru: "Эйфелева башня — всемирно известная туристическая достопримечательность." },
