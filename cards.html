@@ -202,6 +202,7 @@
     
     <div class="nav-tabs" id="tabs">
         <button class="tab-btn active" onclick="changeCategory('all')">Все слова</button>
+        <button class="tab-btn" onclick="changeCategory('tourism')">Tourism & Travel</button>
         <button class="tab-btn" onclick="changeCategory('task1')">Task 1 (Graphs & Maps)</button>
         <button class="tab-btn" onclick="changeCategory('gov_crime')">Gov, Crime & Society</button>
         <button class="tab-btn" onclick="changeCategory('culture_art')">Culture & Art</button>
@@ -249,6 +250,33 @@
 
     <script>
         const allWords = [
+            // --- Категория: Tourism & Travel ---
+            { ru: "осмотр достопримечательностей", en: "sightseeing", cat: "tourism", example: "We spent the whole morning doing sightseeing in Rome.", example_ru: "Мы провели всё утро, осматривая достопримечательности в Риме." },
+            { ru: "туристическая достопримечательность", en: "tourist attraction", cat: "tourism", example: "The Eiffel Tower is a world-famous tourist attraction.", example_ru: "Эйфелева башня — всемирно известная туристическая достопримечательность." },
+            { ru: "путешествие с рюкзаком", en: "backpacking", cat: "tourism", example: "Backpacking is a popular way for young adults to travel cheaply.", example_ru: "Путешествие с рюкзаком — популярный способ недорого путешествовать для молодежи." },
+            { ru: "погрузиться в культуру", en: "immerse yourself in a culture", cat: "tourism", example: "Travellers can immerse themselves in the local culture.", example_ru: "Путешественники могут погрузиться в местную культуру." },
+            { ru: "познакомиться с местной культурой", en: "experience local culture", cat: "tourism", example: "Tourists should try to experience local culture.", example_ru: "Туристам следует стараться знакомиться с местной культурой." },
+            { ru: "знакомиться с людьми разного происхождения", en: "meet people from different backgrounds", cat: "tourism", example: "Travelling allows you to meet people from different backgrounds.", example_ru: "Путешествия позволяют знакомиться с людьми разного происхождения." },
+            { ru: "выйти из зоны комфорта", en: "step outside your comfort zone", cat: "tourism", example: "Solo travel encourages people to step outside their comfort zone.", example_ru: "Одиночные путешествия побуждают людей выходить из зоны комфорта." },
+            { ru: "создать незабываемые воспоминания", en: "make lasting memories", cat: "tourism", example: "Family trips allow people to make lasting memories.", example_ru: "Семейные поездки позволяют людям создавать незабываемые воспоминания." },
+            { ru: "получить незабываемый опыт", en: "have a memorable experience", cat: "tourism", example: "We had a memorable experience in Japan.", example_ru: "Мы получили незабываемый опыт в Японии." },
+            { ru: "отвлечься от повседневной рутины", en: "escape from the daily routine", cat: "tourism", example: "Many people travel to escape from the daily routine.", example_ru: "Многие люди путешествуют, чтобы отвлечься от повседневной рутины." },
+            { ru: "исследовать новые места", en: "explore new places", cat: "tourism", example: "I love exploring new places.", example_ru: "Я люблю исследовать новые места." },
+            { ru: "находить малоизвестные интересные места", en: "discover hidden gems", cat: "tourism", example: "Tourists often enjoy discovering hidden gems.", example_ru: "Туристам часто нравится находить малоизвестные интересные места." },
+            { ru: "испытать / увидеть что-либо лично", en: "experience something first-hand", cat: "tourism", example: "Travel enables you to experience historical monuments first-hand.", example_ru: "Путешествия позволяют увидеть исторические памятники лично." },
+            { ru: "курорт / курортный комплекс", en: "resort", cat: "tourism", example: "They spent two weeks at a seaside resort.", example_ru: "Они провели две недели на морском курорте." },
+            { ru: "недорогое жильё", en: "budget accommodation", cat: "tourism", example: "Students often look for budget accommodation.", example_ru: "Студенты часто ищут недорогое жильё." },
+            { ru: "обслуживание номеров", en: "room service", cat: "tourism", example: "We ordered breakfast through room service.", example_ru: "Мы заказали завтрак через обслуживание номеров." },
+            { ru: "устойчивый туризм", en: "sustainable tourism", cat: "tourism", example: "Sustainable tourism protects natural resources for future generations.", example_ru: "Устойчивый туризм защищает природные ресурсы для будущих поколений." },
+            { ru: "стимулировать местную экономику", en: "boost the local economy", cat: "tourism", example: "Tourism helps to boost the local economy in coastal towns.", example_ru: "Туризм помогает стимулировать местную экономику в прибрежных городах." },
+            { ru: "создавать рабочие места", en: "create employment opportunities", cat: "tourism", example: "New hotels create employment opportunities for local residents.", example_ru: "Новые отели создают рабочие места для местных жителей." },
+            { ru: "приносить доход", en: "generate revenue", cat: "tourism", example: "Historical landmarks generate revenue for the municipality.", example_ru: "Исторические достопримечательности приносят доход муниципалитету." },
+            { ru: "способствовать культурному обмену", en: "promote cultural exchange", cat: "tourism", example: "International tourism promotes cultural exchange and understanding.", example_ru: "Международный туризм способствует культурному обмену и взаимопониманию." },
+            { ru: "сохранять культурное наследие", en: "preserve cultural heritage", cat: "tourism", example: "Funds from tourism are used to preserve cultural heritage.", example_ru: "Средства от туризма используются для сохранения культурного наследия." },
+            { ru: "вызывать перенаселённость / скопление людей", en: "cause overcrowding", cat: "tourism", example: "Mass tourism can cause overcrowding in famous cities.", example_ru: "Массовый туризм может вызывать скопление людей в знаменитых городах." },
+            { ru: "способствовать загрязнению", en: "contribute to pollution", cat: "tourism", example: "Increased flight frequencies contribute to environmental pollution.", example_ru: "Увеличение частоты перелетов способствует загрязнению окружающей среды." },
+            { ru: "коммерциализировать местную культуру", en: "commercialise local culture", cat: "tourism", example: "Tourism sometimes threatens to commercialise local culture.", example_ru: "Туризм иногда угрожает коммерциализировать местную культуру." },
+
             // --- Категория: Culture & Art ---
             { ru: "культурное наследие", en: "cultural heritage", cat: "culture_art", example: "The museum plays a vital role in preserving cultural heritage.", example_ru: "Музей играет важную роль в сохранении культурного наследия." },
             { ru: "культурные ценности", en: "cultural values", cat: "culture_art", example: "Every society passes down its cultural values to the next generation.", example_ru: "Каждое общество передает свои культурные ценности следующему поколению." },
@@ -775,7 +803,7 @@
 
         function initQuiz() {
             if (currentCategory === 'all') {
-                // Исключаем категории task1, gov_crime и culture_art из категории "Все слова"
+                // Исключаем узкоспециализированные категории из кнопки "Все слова"
                 currentDeck = allWords.filter(w => w.cat !== 'task1' && w.cat !== 'gov_crime' && w.cat !== 'culture_art');
             } else {
                 currentDeck = allWords.filter(w => w.cat === currentCategory);
